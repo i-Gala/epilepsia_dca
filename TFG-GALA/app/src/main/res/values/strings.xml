@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Epilepsia DCA</string>
+
+    <string name="bluetooth_error">No se puede acceder al Bluetooth.</string>
+    <string name="bluetooth_devicelist">Seleccione un dispositivo</string>
+
+
+    <string name="login">Iniciar sesión</string>
+    <string name="signUp">Registrarse</string>
+
+    <string name="field_email">Correo electrónico</string>
+    <string name="field_password">Contraseña</string>
+    <string name="field_passwordConfirm">Repetir Contraseña</string>
+    <string name="field_name">Nombre</string>
+    <string name="field_lastname">Apellidos</string>
+    <string name="btn_send">Enviar</string>
+
+    <string name="signup_succesfully">Registrado con éxito</string>
+    <string name="signup_password_error">Las contraseñas no coinciden</string>
+
+    <string name="login_signup">¿No tienes cuenta? ¡Regístrate!</string>
+    <string name="login_succesfully">Inició sesión con éxito</string>
+    <string name="login_password_error">La contraseñas es incorrecta</string>
+    <string name="login_email_error">El usuario no existe</string>
+</resources>

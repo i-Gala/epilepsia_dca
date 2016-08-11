@@ -1,0 +1,31 @@
+package com.example.gala.tfg_gala;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+
+/**
+ * Esta es la primera actividad que se inicia al abrir la aplicación,
+ * si el usuario no ha iniciado sesión deberá iniciarla o - en caso
+ * de no tener una cuenta - registrarse.
+ */
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    protected void loginOnClick(View v){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    protected void signUpOnClick(View v){
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+}

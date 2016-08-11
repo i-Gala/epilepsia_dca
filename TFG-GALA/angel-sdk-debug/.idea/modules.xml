@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../angel-sample-app.iml" filepath="$PROJECT_DIR$/../angel-sample-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/angel-sdk-debug.iml" filepath="$PROJECT_DIR$/angel-sdk-debug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../angel-sdk-release/angel-sdk-release.iml" filepath="$PROJECT_DIR$/../angel-sdk-release/angel-sdk-release.iml" />
+    </modules>
+  </component>
+</project>

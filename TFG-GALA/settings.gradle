@@ -1,0 +1,1 @@
+include ':app', ':angel-sdk-debug', ':angel-sdk-release'
