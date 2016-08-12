@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "com.example.gala.tfg_gala"
+        applicationId "com.ua.igala.epilepsia_dca"
         minSdkVersion 18
         targetSdkVersion 18
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.gala.tfg_gala;
+package com.ua.igala.epilepsia_dca;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.view.View;
 
 import com.angel.sdk.BleScanner;

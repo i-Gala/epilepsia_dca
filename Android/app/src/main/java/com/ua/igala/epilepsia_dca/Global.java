@@ -1,4 +1,4 @@
-package com.example.gala.tfg_gala;
+package com.ua.igala.epilepsia_dca;
 
 /**
  * Variables globales de la aplicación

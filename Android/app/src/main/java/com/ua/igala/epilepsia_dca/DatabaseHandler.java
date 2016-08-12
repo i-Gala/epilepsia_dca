@@ -1,11 +1,8 @@
-package com.example.gala.tfg_gala;
+package com.ua.igala.epilepsia_dca;
 
 /**
  * BASE DE DATOS
  */
-
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;

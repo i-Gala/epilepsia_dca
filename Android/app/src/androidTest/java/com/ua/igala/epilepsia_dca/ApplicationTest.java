@@ -1,4 +1,4 @@
-package com.example.gala.tfg_gala;
+package com.ua.igala.epilepsia_dca;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
