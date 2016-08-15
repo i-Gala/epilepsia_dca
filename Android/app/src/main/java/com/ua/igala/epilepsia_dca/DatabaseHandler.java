@@ -84,11 +84,27 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
             return "CODE_USER_ERROR";
         } else if( cursor.getCount() >= 1 && cursor.moveToFirst()) {
             password = cursor.getString(cursor.getColumnIndex(KEY_PASSWORD));
-            Global.user_id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
             cursor.close();
         }
 
         return password;
+    }
+
+    int getUserID(String email) {
+        int user_id = -1;
+
+        SQLiteDatabase BD = this.getReadableDatabase();
+        Cursor cursor = BD.query(TABLE_USER, null, "email=?", new String[]{email}, null, null, null, null);
+
+        if(cursor.getCount() < 1) {
+            cursor.close();
+            return -1;
+        } else if( cursor.getCount() >= 1 && cursor.moveToFirst()) {
+            user_id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            cursor.close();
+        }
+
+        return user_id;
     }
 
     public String getDatabaseName() {

@@ -77,6 +77,16 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    protected void logoutOnClick(View v) {
+        //Global global = ((Global)getApplicationContext());
+        //global.setOnlineUser(false);
+        //global.setIDUserOnline(-1);
+        Global.getInstance().setOnlineUser(false);
+        Global.getInstance().setIDUserOnline(-1);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     private void startScan() {
         try {
             if (mBleScanner == null)

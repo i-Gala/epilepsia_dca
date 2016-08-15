@@ -11,22 +11,24 @@
     android:background="@drawable/ic_home_nexus">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:text="@string/login"
         android:id="@+id/button_login"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="166dp"
-        android:onClick="loginOnClick" />
+        android:onClick="loginOnClick"
+        android:background="@drawable/button_rounded_233x72" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:text="@string/signUp"
         android:id="@+id/button2"
         android:layout_marginBottom="81dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="signUpOnClick" />
+        android:onClick="signUpOnClick"
+        android:background="@drawable/button_rounded_233x72" />
 </RelativeLayout>

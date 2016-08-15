@@ -22,4 +22,15 @@
         android:layout_marginLeft="10dp"
         android:onClick="scanOnClick" />
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/imageView"
+        android:background="@drawable/logout_white"
+        android:layout_marginLeft="10dp"
+        android:onClick="logoutOnClick"
+        android:layout_alignTop="@+id/bluetooth_connected"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-5dp" />
+
 </RelativeLayout>

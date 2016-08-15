@@ -29,7 +29,11 @@ public class LoginActivity extends AppCompatActivity {
         String BDPassword = BD.getUser(field_email);
         if(field_password.equals(BDPassword)) {
             Toast.makeText(getApplicationContext(), R.string.login_succesfully, Toast.LENGTH_LONG).show();
-            Global.online = true;
+            //Global global = ((Global)getApplicationContext());
+            //global.setOnlineUser(true);
+            //global.setIDUserOnline(BD.getUserID(field_email));
+            Global.getInstance().setOnlineUser(true);
+            Global.getInstance().setIDUserOnline(BD.getUserID(field_email));
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         } else {
