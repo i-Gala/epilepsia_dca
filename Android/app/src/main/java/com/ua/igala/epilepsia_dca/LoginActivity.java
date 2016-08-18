@@ -1,17 +1,25 @@
 package com.ua.igala.epilepsia_dca;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
+
+import java.util.ArrayList;
+
 /**
  * Gestiona el inicio de sesión en la aplicación.
  */
 
 public class LoginActivity extends AppCompatActivity {
+
+    private OperacionesBD database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,20 +28,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void sendOnClick(View v){
-        DatabaseHandler BD = new DatabaseHandler(LoginActivity.this, null, null, 2);
         EditText et_email = (EditText) findViewById(R.id.field_email);
         EditText et_password = (EditText) findViewById(R.id.field_password);
         String field_email = et_email.getText().toString();
         String field_password = et_password.getText().toString();
 
-        String BDPassword = BD.getUser(field_email);
+        String BDPassword = database.getUserPassword(database.getUsuarioByEmail(field_email));
         if(field_password.equals(BDPassword)) {
             Toast.makeText(getApplicationContext(), R.string.login_succesfully, Toast.LENGTH_LONG).show();
             //Global global = ((Global)getApplicationContext());
             //global.setOnlineUser(true);
             //global.setIDUserOnline(BD.getUserID(field_email));
             Global.getInstance().setOnlineUser(true);
-            Global.getInstance().setIDUserOnline(BD.getUserID(field_email));
+            Global.getInstance().setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         } else {

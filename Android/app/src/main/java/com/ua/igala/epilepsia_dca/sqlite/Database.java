@@ -67,14 +67,15 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL,%s TEXT NOT NULL,%s TEXT NOT NULL," +
-                        "%s TEXT NOT NULL, %s INTENGER NOT NULL, %s INTENGER NOT NULL," +
-                        "%s INTENGER NOT NULL)",
+                        "%s TEXT UNIQUE NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s INTENGER NOT NULL," +
+                        "%s INTENGER NOT NULL, %s INTENGER NOT NULL)",
                 Tablas.USUARIOS, BaseColumns._ID,
-                Usuarios.ID, Usuarios.NOMBRE,
-                Usuarios.APELLIDOS, Usuarios.PASSWORD,
-                Usuarios.FIRST_CONEXION, Usuarios.ALARMA_BLUETOOTH,
-                Usuarios.ALARMA_TELEFONO));
+                Usuarios.EMAIL, Usuarios.ID,
+                Usuarios.NOMBRE, Usuarios.APELLIDOS,
+                Usuarios.PASSWORD, Usuarios.FIRST_CONEXION,
+                Usuarios.ALARMA_BLUETOOTH, Usuarios.ALARMA_TELEFONO));
+
 
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT UNIQUE NOT NULL,%s INTENGER NOT NULL, %s TEXT NOT NULL %s)",

@@ -4,6 +4,7 @@ import java.util.UUID;
 public class Userdata {
     interface ColumnasUsuario {
         String ID = "id";
+        String EMAIL = "email";
         String NOMBRE = "nombre";
         String APELLIDOS = "apellidos";
         String PASSWORD = "password";

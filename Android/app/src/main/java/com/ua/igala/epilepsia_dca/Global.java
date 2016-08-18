@@ -7,7 +7,7 @@ package com.ua.igala.epilepsia_dca;
 
 public class Global {
     private boolean online = false;
-    private int user_id = -1;
+    private String user_id = null;
     private static Global instance;
 
     static {
@@ -16,7 +16,7 @@ public class Global {
 
     private Global() {
         online = false;
-        user_id = -1;
+        user_id = null;
     }
 
     public static Global getInstance() {
@@ -31,11 +31,11 @@ public class Global {
         online = o;
     }
 
-    public int getIDUserOnline() {
+    public String getIDUserOnline() {
         return user_id;
     }
 
-    public void setIDUserOnline(int id) {
+    public void setIDUserOnline(String id) {
         user_id = id;
     }
 }

@@ -7,16 +7,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ua.igala.epilepsia_dca.model.Usuario;
+import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
+
 /**
  * Gestiona el registro en la Base de Datos (BD) en la aplicación.
  */
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private OperacionesBD database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        database = OperacionesBD.obtenerInstancia(getApplicationContext());
     }
 
     protected void sendOnClick(View v){
@@ -33,18 +40,17 @@ public class SignUpActivity extends AppCompatActivity {
         String field_passwordConfirm = et_passwordConfirm.getText().toString();
 
         if(field_password.equals(field_passwordConfirm)) {
-            DatabaseHandler BD = new DatabaseHandler(SignUpActivity.this, null, null, 2);;
+            try {
+                database.getDb().beginTransaction();
+                String usuario = database.addUsuario(new Usuario(null, field_email, field_name, field_lastname, field_password, true, false, false));
+                database.getDb().setTransactionSuccessful();
+            } finally {
+                database.getDb().endTransaction();
 
-            Userdata user = new Userdata();
-            user.setName(field_name);
-            user.setLastname(field_lastname);
-            user.setEmail(field_email);
-            user.setPassword(field_password);
-            BD.addUser(user);
-
-            Toast.makeText(getApplicationContext(), R.string.signup_succesfully, Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+                Toast.makeText(getApplicationContext(), R.string.signup_succesfully, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(getApplicationContext(), R.string.signup_password_error, Toast.LENGTH_LONG).show();
             et_password.setText("");

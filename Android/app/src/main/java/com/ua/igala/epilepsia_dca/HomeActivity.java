@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         //global.setOnlineUser(false);
         //global.setIDUserOnline(-1);
         Global.getInstance().setOnlineUser(false);
-        Global.getInstance().setIDUserOnline(-1);
+        Global.getInstance().setIDUserOnline(null);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
