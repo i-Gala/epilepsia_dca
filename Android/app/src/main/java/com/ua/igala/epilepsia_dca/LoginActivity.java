@@ -25,6 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        database = OperacionesBD.obtenerInstancia(getApplicationContext());
     }
 
     protected void sendOnClick(View v){
@@ -36,9 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         String BDPassword = database.getUserPassword(database.getUsuarioByEmail(field_email));
         if(field_password.equals(BDPassword)) {
             Toast.makeText(getApplicationContext(), R.string.login_succesfully, Toast.LENGTH_LONG).show();
-            //Global global = ((Global)getApplicationContext());
-            //global.setOnlineUser(true);
-            //global.setIDUserOnline(BD.getUserID(field_email));
             Global.getInstance().setOnlineUser(true);
             Global.getInstance().setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));
             Intent intent = new Intent(this, HomeActivity.class);

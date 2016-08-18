@@ -51,15 +51,19 @@ public final class OperacionesBD {
     public String getUserPassword(Cursor c) {
         ArrayList<String> mArrayList = new ArrayList<String>();
         String[] array;
-        int id = c.getColumnIndex(Usuarios.PASSWORD);
 
-        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            mArrayList.add(c.getString(id));
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.PASSWORD);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
         }
-
         array = mArrayList.toArray(new String[0]);
-        System.out.println(array[0]);
-
+        //System.out.println(array[0]);
         c.close();
         return array[0];
     }
@@ -67,26 +71,32 @@ public final class OperacionesBD {
     public String getUserID(Cursor c) {
         ArrayList<String> mArrayList = new ArrayList<String>();
         String[] array;
-        int id = c.getColumnIndex(Usuarios.ID);
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.ID);
 
-        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            mArrayList.add(c.getString(id));
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
         }
-
         array = mArrayList.toArray(new String[0]);
-        System.out.println(array[0]);
-
+       // System.out.println(array[0]);
         c.close();
         return array[0];
     }
 
     public Cursor getUsuarioByEmail(String email) {
         SQLiteDatabase db = database.getReadableDatabase();
+        //Cursor cursor = db.query(Tablas.USUARIOS, null, "email=?", new String[]{email}, null, null, null, null);
 
-        String sql = String.format("SELECT * FROM %s WHERE %s = %s",
+        String sql = String.format("SELECT * FROM %s WHERE %s = '%s'",
                 Tablas.USUARIOS, Usuarios.EMAIL, email);
 
         return db.rawQuery(sql, null);
+
+        //return cursor;
     }
 
     public String addUsuario(Usuario usuario) {
