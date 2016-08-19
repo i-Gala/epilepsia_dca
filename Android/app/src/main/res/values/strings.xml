@@ -22,4 +22,9 @@
     <string name="login_succesfully">Inició sesión con éxito</string>
     <string name="login_password_error">La contraseñas es incorrecta</string>
     <string name="login_email_error">El usuario no existe</string>
+
+    <string name="menu_home">HOME</string>
+    <string name="menu_registros">REGISTROS</string>
+    <string name="menu_perfil">PERFIL</string>
+    <string name="menu_alarmas">ALARMAS</string>
 </resources>
