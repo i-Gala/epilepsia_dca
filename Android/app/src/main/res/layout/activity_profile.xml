@@ -4,17 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ua.igala.epilepsia_dca.HomeActivity"
+    tools:context="com.ua.igala.epilepsia_dca.ProfileActivity"
     android:background="@drawable/ic_menu_updown_nexus_all">
-
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:id="@+id/bluetooth_connected"
-        android:background="@drawable/desconectado_white"
-        android:onClick="scanOnClick"
-        android:layout_alignBottom="@+id/logout"
-        android:layout_alignStart="@+id/text_home" />
 
     <ImageView
         android:layout_width="30dp"
@@ -30,10 +21,11 @@
         android:layout_height="29dp"
         android:id="@+id/ico_home"
         android:layout_gravity="center"
-        android:background="@drawable/home_white"
+        android:background="@drawable/home_reddisable"
         android:layout_above="@+id/text_registro"
         android:layout_alignStart="@+id/text_home"
-        android:layout_marginLeft="7dp" />
+        android:layout_marginLeft="6dp"
+        android:onClick="homeOnClick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +35,9 @@
         android:id="@+id/text_home"
         android:layout_marginTop="525dp"
         android:textStyle="bold"
-        android:layout_marginLeft="35dp" />
+        android:layout_marginLeft="35dp"
+        android:textColor="@color/colorRedDisable"
+        android:onClick="homeOnClick" />
 
     <ImageView
         android:layout_width="29dp"
@@ -70,13 +64,12 @@
         android:layout_width="29dp"
         android:layout_height="29dp"
         android:id="@+id/ico_perfil"
-        android:background="@drawable/profile_reddisable"
+        android:background="@drawable/profile_white"
         android:layout_alignTop="@+id/ico_home"
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="220dp"
-        android:onClick="profileOnClick" />
+        android:layout_marginStart="220dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,9 +78,7 @@
         android:text="@string/menu_perfil"
         android:id="@+id/text_perfil"
         android:layout_marginLeft="213dp"
-        android:layout_alignTop="@+id/text_home"
-        android:textColor="@color/colorRedDisable"
-        android:onClick="profileOnClick"/>
+        android:layout_alignTop="@+id/text_home"/>
 
     <ImageView
         android:layout_width="40dp"

@@ -83,6 +83,19 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void profileOnClick(View v) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    protected void lastStatsOnClick(View v) {
+
+    }
+
+    protected void alarmOnClick(View v) {
+
+    }
+
     private void startScan() {
         try {
             if (mBleScanner == null)

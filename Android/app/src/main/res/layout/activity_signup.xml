@@ -14,13 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/field_name"
+        android:hint="@string/field_name"
         android:ems="10"
         android:id="@+id/field_name"
         android:layout_marginTop="54dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/field_lastname"
+        android:hint="@string/field_lastname"
         android:ems="10"
         android:id="@+id/field_lastname"
         android:enabled="true"
