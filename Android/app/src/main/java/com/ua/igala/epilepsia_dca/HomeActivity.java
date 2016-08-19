@@ -65,7 +65,6 @@ public class HomeActivity extends AppCompatActivity {
             case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;
             default:        break;
         }
-
     }
 
     protected void scanOnClick(View v) {
@@ -78,9 +77,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void logoutOnClick(View v) {
-        //Global global = ((Global)getApplicationContext());
-        //global.setOnlineUser(false);
-        //global.setIDUserOnline(-1);
         Global.getInstance().setOnlineUser(false);
         Global.getInstance().setIDUserOnline(null);
         Intent intent = new Intent(this, MainActivity.class);

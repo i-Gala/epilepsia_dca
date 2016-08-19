@@ -17,11 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Global global = ((Global)getApplicationContext());
-        if(Global.getInstance().getOnlineUser() == true) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
-        }
     }
 
     protected void loginOnClick(View v){

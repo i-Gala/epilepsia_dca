@@ -8,11 +8,7 @@ package com.ua.igala.epilepsia_dca;
 public class Global {
     private boolean online = false;
     private String user_id = null;
-    private static Global instance;
-
-    static {
-        instance = new Global();
-    }
+    private static Global instance = new Global();
 
     private Global() {
         online = false;
