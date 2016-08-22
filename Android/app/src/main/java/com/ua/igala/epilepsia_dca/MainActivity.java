@@ -12,11 +12,22 @@ import android.view.View;
  */
 
 public class MainActivity extends AppCompatActivity {
+    private Global global = Global.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        global.setOnlineUser(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(global.getOnlineUser() == true) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     protected void loginOnClick(View v){

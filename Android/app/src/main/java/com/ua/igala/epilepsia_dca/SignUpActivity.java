@@ -17,6 +17,7 @@ import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
 public class SignUpActivity extends AppCompatActivity {
 
     private OperacionesBD database;
+    private Global global = Global.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,15 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         database = OperacionesBD.obtenerInstancia(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(global.getOnlineUser() == true) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     protected void sendOnClick(View v){

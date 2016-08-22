@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     private OperacionesBD database;
+    private Global global = Global.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         database = OperacionesBD.obtenerInstancia(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(global.getOnlineUser() == true) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     protected void sendOnClick(View v){
@@ -38,8 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         String BDPassword = database.getUserPassword(database.getUsuarioByEmail(field_email));
         if(field_password.equals(BDPassword)) {
             Toast.makeText(getApplicationContext(), R.string.login_succesfully, Toast.LENGTH_LONG).show();
-            Global.getInstance().setOnlineUser(true);
-            Global.getInstance().setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));
+            /*Global.getInstance().setOnlineUser(true);
+            Global.getInstance().setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));*/
+            global.setOnlineUser(true);
+            Log.d("IDGET",database.getUserID(database.getUsuarioByEmail(field_email)));
+            global.setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));
+            Log.d("IDALMACENADA",global.getIDUserOnline());
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         } else {

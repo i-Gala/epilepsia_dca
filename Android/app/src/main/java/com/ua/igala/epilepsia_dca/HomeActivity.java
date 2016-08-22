@@ -23,6 +23,7 @@ import junit.framework.Assert;
  */
 
 public class HomeActivity extends AppCompatActivity {
+    Global global = Global.getInstance();
     // Definimos los estados en los que puede estar la conexión con la smartband
     private static final int IDLE = 0;
     private static final int SCANNING = 1;
@@ -67,6 +68,15 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(global.getOnlineUser() == false) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
     protected void scanOnClick(View v) {
         mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
         switch (angel_state) {
@@ -77,8 +87,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void logoutOnClick(View v) {
-        Global.getInstance().setOnlineUser(false);
-        Global.getInstance().setIDUserOnline(null);
+       // Global.getInstance().setOnlineUser(false);
+       // Global.getInstance().setIDUserOnline(null);
+        global.setOnlineUser(false);
+        global.setIDUserOnline(null);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

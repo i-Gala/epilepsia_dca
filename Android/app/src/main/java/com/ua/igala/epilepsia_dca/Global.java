@@ -1,6 +1,9 @@
 package com.ua.igala.epilepsia_dca;
 
 
+import android.app.Application;
+import android.support.v7.app.AppCompatActivity;
+
 /**
  * Variables globales de la aplicación
  */
@@ -8,30 +11,33 @@ package com.ua.igala.epilepsia_dca;
 public class Global {
     private boolean online = false;
     private String user_id = null;
-    private static Global instance = new Global();
+    private static Global instance;
 
-    private Global() {
+   private Global() {
         online = false;
         user_id = null;
     }
 
-    public static Global getInstance() {
-        return Global.instance;
+    public static synchronized Global getInstance(){
+        if(instance == null){
+            instance = new Global();
+        }
+        return instance;
     }
 
     public boolean getOnlineUser() {
-        return online;
+        return this.online;
     }
 
     public void setOnlineUser(boolean o) {
-        online = o;
+        this.online = o;
     }
 
     public String getIDUserOnline() {
-        return user_id;
+        return this.user_id;
     }
 
     public void setIDUserOnline(String id) {
-        user_id = id;
+        this.user_id = id;
     }
 }
