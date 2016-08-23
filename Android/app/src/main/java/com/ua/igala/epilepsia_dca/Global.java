@@ -13,7 +13,7 @@ public class Global {
     private String user_id = null;
     private static Global instance;
 
-   private Global() {
+    private Global() {
         online = false;
         user_id = null;
     }

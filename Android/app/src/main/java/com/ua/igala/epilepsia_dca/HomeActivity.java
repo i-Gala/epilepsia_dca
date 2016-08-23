@@ -23,15 +23,12 @@ import junit.framework.Assert;
  */
 
 public class HomeActivity extends AppCompatActivity {
-    Global global = Global.getInstance();
+    AngelSensor Smartband = AngelSensor.getInstance();
+
     // Definimos los estados en los que puede estar la conexión con la smartband
     private static final int IDLE = 0;
     private static final int SCANNING = 1;
     private static final int CONNECTED = 2;
-
-    static private int angel_state = IDLE;  // Estado actual
-
-    private BleScanner mBleScanner;
 
     private Dialog mDeviceListDialog;
     private ListItemsAdapter mDeviceListAdapter;
@@ -39,58 +36,39 @@ public class HomeActivity extends AppCompatActivity {
 
     ImageView ICON_CONNECTED;
 
-    /**
-     * Agrega los dispositivos de Bluetooth encontrados a la lista de dispositivas. Después
-     * el usuario podrá hacer click en el dispositivo para conectarlo.
-     */
-    BleScanner.ScanCallback mScanCallback = new BleScanner.ScanCallback() {
-        @Override
-        public void onBluetoothDeviceFound(BluetoothDevice device) {
-            if (device.getName() != null && device.getName().startsWith("Angel")) {
-                ListItem newDevice = new ListItem(device.getName(), device.getAddress(), device);
-                mDeviceListAdapter.add(newDevice);
-                mDeviceListAdapter.addItem(newDevice);
-                mDeviceListAdapter.notifyDataSetChanged();
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ICON_CONNECTED = (ImageView) findViewById(R.id.bluetooth_connected);
 
-        switch (angel_state) {
+        Smartband.setCurrentActivity(this);
+        Smartband.configurateStates(IDLE, SCANNING, CONNECTED);
+        switch (Smartband.getAngelState()) {
             case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white);  break;
             case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;
             default:        break;
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(global.getOnlineUser() == false) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-    }
-
     protected void scanOnClick(View v) {
         mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
-        switch (angel_state) {
-            case IDLE:      startScan();    break;
-            case SCANNING:  stopScan();     break;
+        Smartband.updateDeviceListAdapter(mDeviceListAdapter);
+        switch (Smartband.getAngelState()) {
+            case IDLE:
+                Smartband.startScan();
+                showDeviceListDialog();
+                break;
+            case SCANNING:
+                Smartband.stopScan();
+                break;
             case CONNECTED: break;
         }
     }
 
     protected void logoutOnClick(View v) {
-       // Global.getInstance().setOnlineUser(false);
-       // Global.getInstance().setIDUserOnline(null);
-        global.setOnlineUser(false);
-        global.setIDUserOnline(null);
+        Global.getInstance().setOnlineUser(false);
+        Global.getInstance().setIDUserOnline(null);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -107,30 +85,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void alarmOnClick(View v) {
         Intent intent = new Intent(this, AlarmActivity.class);
         startActivity(intent);
-
     }
 
-    private void startScan() {
-        try {
-            if (mBleScanner == null)
-                mBleScanner = new BleScanner(this, mScanCallback);
-        } catch (BluetoothInaccessibleException e) {
-            throw new AssertionError(R.string.bluetooth_error);
-        }
 
-        angel_state = SCANNING;
-        mBleScanner.startScan();
-        showDeviceListDialog();
-    }
-
-    private void stopScan() {
-        if (angel_state == SCANNING) {
-            mBleScanner.stopScan();
-            angel_state = IDLE;
-        }
-    }
 
     private void showDeviceListDialog() {
+        mDeviceListAdapter = Smartband.getDeviceListAdapter();
         mDeviceListDialog = new Dialog(this);
         mDeviceListDialog.setTitle(R.string.bluetooth_devicelist);
         mDeviceListDialog.setContentView(R.layout.device_list);
@@ -139,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                stopScan();
+                Smartband.stopScan();
                 mDeviceListDialog.dismiss();
 
                 BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
@@ -148,14 +108,14 @@ public class HomeActivity extends AppCompatActivity {
                 intent.putExtra("ble_device_address", bluetoothDevice.getAddress());
                 startActivity(intent);
                 ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);
-                angel_state = CONNECTED;
+                Smartband.setAngelState(CONNECTED);
             }
         });
 
         mDeviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                stopScan();
+                Smartband.stopScan();
             }
         });
         mDeviceListDialog.show();
