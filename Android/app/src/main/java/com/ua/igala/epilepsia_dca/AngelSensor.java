@@ -5,14 +5,13 @@ import android.bluetooth.BluetoothDevice;
 import com.angel.sdk.BleScanner;
 import com.angel.sdk.BluetoothInaccessibleException;
 
-import junit.framework.Assert;
-
 /**
- * Created by Gala on 23/08/2016.
+ * Se trata de una clase fachada, para en el futuro facilitar
+ * el cambio de pulsera
  */
 
 public class AngelSensor {
-    private Activity mCurrentActivity = null;
+    private Activity actividad_actual = null;
     static private int angel_state;
 
     private static AngelSensor instance;
@@ -40,7 +39,7 @@ public class AngelSensor {
         }
     };
 
-    private AngelSensor() {
+    public AngelSensor() {
         angel_state = 0;
     }
 
@@ -51,8 +50,11 @@ public class AngelSensor {
         return instance;
     }
 
-    public int getAngelState() {
+    public int getState() {
         return this.angel_state;
+    }
+    public void setState(int state) {
+        this.angel_state = state;
     }
 
     public void configurateStates(int idle, int scanning, int connected) {
@@ -61,14 +63,11 @@ public class AngelSensor {
         this.CONNECTED = connected;
     }
 
-    public void setAngelState(int state) {
-        this.angel_state = state;
-    }
 
-    public void callScanCallback() {
+    public void ScanCallback() {
         try {
             if (mBleScanner == null) {
-                mBleScanner = new BleScanner(mCurrentActivity, mScanCallback);
+                mBleScanner = new BleScanner(actividad_actual, mScanCallback);
             }
         } catch (BluetoothInaccessibleException e) {
             throw new AssertionError(R.string.bluetooth_error);
@@ -82,7 +81,10 @@ public class AngelSensor {
     public void stopScan() {
         mBleScanner.stopScan();
     }
-
+    /**
+     * Teniendo en cuenta que la lista se actualiza desde el escaner,
+     * debemos tener una copia en la global de la smartband.
+     */
     public void updateDeviceListAdapter(ListItemsAdapter mDeviceListAdapter) {
         this.mDeviceListAdapter = mDeviceListAdapter;
     }
@@ -91,10 +93,14 @@ public class AngelSensor {
         return this.mDeviceListAdapter;
     }
 
-    public Activity getCurrentActivity(){
-        return mCurrentActivity;
+    /**
+     * Como los datos deben aparecer en HomeActivity, debemos recibir
+     * la actividad real para que la aplicación funcione
+     */
+    public Activity getActivity(){
+        return actividad_actual;
     }
-    public void setCurrentActivity(Activity mCurrentActivity){
-        this.mCurrentActivity = mCurrentActivity;
+    public void setActivity(Activity mCurrentActivity){
+        this.actividad_actual = mCurrentActivity;
     }
 }

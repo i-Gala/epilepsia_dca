@@ -11,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.View;
 
-import com.angel.sdk.BleScanner;
-import com.angel.sdk.BluetoothInaccessibleException;
-
 import junit.framework.Assert;
 
 /**
@@ -23,7 +20,7 @@ import junit.framework.Assert;
  */
 
 public class HomeActivity extends AppCompatActivity {
-    AngelSensor Smartband = AngelSensor.getInstance();
+    Smartband smartband = Smartband.getInstance();
 
     // Definimos los estados en los que puede estar la conexión con la smartband
     private static final int IDLE = 0;
@@ -42,9 +39,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ICON_CONNECTED = (ImageView) findViewById(R.id.bluetooth_connected);
 
-        Smartband.setCurrentActivity(this);
-        Smartband.configurateStates(IDLE, SCANNING, CONNECTED);
-        switch (Smartband.getAngelState()) {
+        smartband.setActivity(this);
+        smartband.configurateStates(IDLE, SCANNING, CONNECTED);
+        switch (smartband.getSmartbandState()) {
             case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white);  break;
             case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;
             default:        break;
@@ -53,8 +50,8 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void scanOnClick(View v) {
         mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
-        Smartband.updateDeviceListAdapter(mDeviceListAdapter);
-        switch (Smartband.getAngelState()) {
+        smartband.updateDeviceListAdapter(mDeviceListAdapter);
+        switch (smartband.getSmartbandState()) {
             case IDLE:      startScan();    break;
             case SCANNING:  stopScan();     break;
             case CONNECTED: break;
@@ -83,21 +80,21 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void startScan() {
-        Smartband.callScanCallback();
-        Smartband.setAngelState(SCANNING);
-        Smartband.startScan();
+        smartband.ScanCallback();
+        smartband.setSmartbandState(SCANNING);
+        smartband.startScan();
         showDeviceListDialog();
     }
 
     private void stopScan() {
-        if(Smartband.getAngelState() == SCANNING) {
-            Smartband.stopScan();
-            Smartband.setAngelState(IDLE);
+        if(smartband.getSmartbandState() == SCANNING) {
+            smartband.stopScan();
+            smartband.setSmartbandState(IDLE);
         }
     }
 
     private void showDeviceListDialog() {
-        mDeviceListAdapter = Smartband.getDeviceListAdapter();
+        mDeviceListAdapter = smartband.getDeviceListAdapter();
         mDeviceListDialog = new Dialog(this);
         mDeviceListDialog.setTitle(R.string.bluetooth_devicelist);
         mDeviceListDialog.setContentView(R.layout.device_list);
@@ -106,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                Smartband.stopScan();
+                smartband.stopScan();
                 mDeviceListDialog.dismiss();
 
                 BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
@@ -115,14 +112,14 @@ public class HomeActivity extends AppCompatActivity {
                 intent.putExtra("ble_device_address", bluetoothDevice.getAddress());
                 startActivity(intent);
                 ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);
-                Smartband.setAngelState(CONNECTED);
+                smartband.setSmartbandState(CONNECTED);
             }
         });
 
         mDeviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                Smartband.stopScan();
+                smartband.stopScan();
             }
         });
         mDeviceListDialog.show();
