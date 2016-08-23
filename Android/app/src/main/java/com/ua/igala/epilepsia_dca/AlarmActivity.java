@@ -30,6 +30,11 @@ public class AlarmActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void homeOnClick(View v) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
     protected void profileOnClick(View v) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
