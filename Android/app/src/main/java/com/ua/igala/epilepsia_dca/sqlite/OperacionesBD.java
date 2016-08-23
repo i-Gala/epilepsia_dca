@@ -48,7 +48,70 @@ public final class OperacionesBD {
         return db.rawQuery(sql, null);
     }
 
-    public String getUserPassword(Cursor c) {
+    public String getUserName(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.NOMBRE);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        //System.out.println(array[0]);
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserLastname(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.APELLIDOS);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        //System.out.println(array[0]);
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserMail(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.EMAIL);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        //System.out.println(array[0]);
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserPassword(Cursor c, boolean close) {
         ArrayList<String> mArrayList = new ArrayList<String>();
         String[] array;
 
@@ -64,11 +127,12 @@ public final class OperacionesBD {
         }
         array = mArrayList.toArray(new String[0]);
         //System.out.println(array[0]);
-        c.close();
+        if(close)
+            c.close();
         return array[0];
     }
 
-    public String getUserID(Cursor c) {
+    public String getUserID(Cursor c, boolean close) {
         ArrayList<String> mArrayList = new ArrayList<String>();
         String[] array;
         if(c.getCount() < 1) {
@@ -83,7 +147,48 @@ public final class OperacionesBD {
         }
         array = mArrayList.toArray(new String[0]);
        // System.out.println(array[0]);
-        c.close();
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserAlarmBluetooth(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.ALARMA_BLUETOOTH);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        // System.out.println(array[0]);
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserAlarmPhone(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.ALARMA_TELEFONO);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        // System.out.println(array[0]);
+        if(close)
+            c.close();
         return array[0];
     }
 
@@ -93,6 +198,18 @@ public final class OperacionesBD {
 
         String sql = String.format("SELECT * FROM %s WHERE %s = '%s'",
                 Tablas.USUARIOS, Usuarios.EMAIL, email);
+
+        return db.rawQuery(sql, null);
+
+        //return cursor;
+    }
+
+    public Cursor getUsuarioByID(String idUser) {
+        SQLiteDatabase db = database.getReadableDatabase();
+        //Cursor cursor = db.query(Tablas.USUARIOS, null, "email=?", new String[]{email}, null, null, null, null);
+
+        String sql = String.format("SELECT * FROM %s WHERE %s = '%s'",
+                Tablas.USUARIOS, Usuarios.ID, idUser);
 
         return db.rawQuery(sql, null);
 
@@ -123,6 +240,7 @@ public final class OperacionesBD {
         SQLiteDatabase db = database.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(Usuarios.EMAIL, usuario.email);
         values.put(Usuarios.NOMBRE, usuario.nombre);
         values.put(Usuarios.APELLIDOS, usuario.apellidos);
         values.put(Usuarios.PASSWORD, usuario.password);

@@ -23,6 +23,9 @@
     <string name="login_password_error">La contraseñas es incorrecta</string>
     <string name="login_email_error">El usuario no existe</string>
 
+    <string name="profile_succesfully">Perfil actualizado con éxito</string>
+    <string name="profile_error">No se pudo actualizar el perfil</string>
+
     <string name="menu_home">HOME</string>
     <string name="menu_registros">REGISTROS</string>
     <string name="menu_perfil">PERFIL</string>

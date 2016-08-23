@@ -46,14 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         String field_email = et_email.getText().toString();
         String field_password = et_password.getText().toString();
 
-        String BDPassword = database.getUserPassword(database.getUsuarioByEmail(field_email));
+        String BDPassword = database.getUserPassword(database.getUsuarioByEmail(field_email), true);
         if(field_password.equals(BDPassword)) {
             Toast.makeText(getApplicationContext(), R.string.login_succesfully, Toast.LENGTH_LONG).show();
             /*Global.getInstance().setOnlineUser(true);
             Global.getInstance().setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));*/
             global.setOnlineUser(true);
-            Log.d("IDGET",database.getUserID(database.getUsuarioByEmail(field_email)));
-            global.setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));
+            Log.d("IDGET",database.getUserID(database.getUsuarioByEmail(field_email), true));
+            global.setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email), true));
             Log.d("IDALMACENADA",global.getIDUserOnline());
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
