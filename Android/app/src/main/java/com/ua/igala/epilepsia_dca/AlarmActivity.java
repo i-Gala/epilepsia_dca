@@ -108,9 +108,7 @@ public class AlarmActivity extends AppCompatActivity {
             if(!phone_number.getText().toString().equals("")) {
                 Cursor cursor = database.getTelefonoEmergenciasByUser(global.getIDUserOnline());
                 String phone = database.getPhone(cursor);
-                //Log.d("TELEFONO", phone);
                 int numberphone = Integer.parseInt(phone_number.getText().toString());
-                //Log.d("NUEVO_TELEFONO", phone_number.getText().toString());
 
                 if(phone.equals("PHONE_ERROR")) {   // No hay números de teléfono agregados
                     try {
@@ -120,7 +118,7 @@ public class AlarmActivity extends AppCompatActivity {
                     } finally {
                         database.getDb().endTransaction();
                     }
-                } /*else {
+                } else {
                     try {
                         cursor = database.getTelefonoEmergenciasByUser(global.getIDUserOnline());
                         String idPhone = database.getTelefonoEmergenciasID(cursor);
@@ -131,7 +129,7 @@ public class AlarmActivity extends AppCompatActivity {
                     } finally {
                         database.getDb().endTransaction();
                     }
-                }*/
+                }
             } else {             // Si se ha activado el teléfono y no se ha agregado teléfono: ERROR!!!
                 exito = false;
                 state_phone = false;
