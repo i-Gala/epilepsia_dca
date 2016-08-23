@@ -15,6 +15,13 @@
     <string name="field_lastname">Apellidos</string>
     <string name="btn_send">Enviar</string>
 
+    <string name="field_bluetooth">BLUETOOTH</string>
+    <string name="bluetooth_enable">Alerta Bluetooth activada</string>
+    <string name="sms_enable">Alerta por sms activada</string>
+    <string name="bluetooth_disable">Alerta Bluetooth desactivada</string>
+    <string name="sms_disable">Alerta por sms desactivada</string>
+    <string name="field_telefono">TELEFONO</string>
+
     <string name="signup_succesfully">Registrado con éxito</string>
     <string name="signup_password_error">Las contraseñas no coinciden</string>
 

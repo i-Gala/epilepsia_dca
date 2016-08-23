@@ -83,10 +83,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/menu_perfil"
+        android:textColor="@color/colorRedDisable"
         android:id="@+id/text_perfil"
         android:layout_marginLeft="213dp"
         android:layout_alignTop="@+id/text_home"
-        android:textColor="@color/colorRedDisable"
         android:onClick="profileOnClick"/>
 
     <ImageView

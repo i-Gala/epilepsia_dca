@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ua.igala.epilepsia_dca.AlarmActivity"
-    android:background="@drawable/ic_menu_updown_nexus_all">
+    android:background="@drawable/ic_menu_updown_nexus_all"
+    android:clickable="false">
 
     <ImageView
         android:layout_width="30dp"
@@ -115,5 +116,81 @@
         android:layout_above="@+id/ico_alarmas"
         android:layout_alignEnd="@+id/logout"
         android:layout_marginBottom="28dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/field_bluetooth"
+        android:id="@+id/field_bluetooth"
+        android:layout_below="@+id/logout"
+        android:layout_marginTop="105dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="45dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/field_telefono"
+        android:id="@+id/field_telefono"
+        android:layout_below="@+id/logout"
+        android:layout_marginTop="195dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="45dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switch_bluetooth"
+        android:layout_alignStart="@+id/ico_perfil"
+        android:layout_marginLeft="40dp"
+        android:textColor="@color/colorRedDisable"
+        android:layout_alignBottom="@+id/field_bluetooth"
+        android:layout_toStartOf="@+id/logout" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switch_phone"
+        android:layout_alignTop="@+id/field_telefono"
+        android:layout_alignStart="@+id/switch_bluetooth"
+        android:layout_alignBottom="@+id/field_telefono"
+        android:layout_toStartOf="@+id/logout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/bluetooth_disable"
+        android:textColor="@color/colorHint"
+        android:id="@+id/text_bluetooth"
+        android:layout_alignTop="@+id/field_bluetooth"
+        android:layout_alignLeft="@+id/field_bluetooth"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/sms_disable"
+        android:textColor="@color/colorHint"
+        android:id="@+id/text_telefono"
+        android:layout_alignTop="@+id/field_telefono"
+        android:layout_alignLeft="@+id/field_telefono"
+        android:layout_marginTop="40dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/phone_number"
+        android:layout_alignTop="@+id/field_telefono"
+        android:layout_alignLeft="@+id/field_telefono"
+        android:hint="XXXXXXXXX"
+        android:textColorHint="@color/colorHint"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginTop="80dp" />
 
 </RelativeLayout>
