@@ -105,6 +105,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void alarmOnClick(View v) {
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
 
     }
 

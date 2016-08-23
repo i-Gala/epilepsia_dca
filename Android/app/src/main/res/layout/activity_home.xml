@@ -98,7 +98,8 @@
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="305dp" />
+        android:layout_marginStart="305dp"
+        android:onClick="alarmOnClick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,6 +109,7 @@
         android:id="@+id/text_alarmas"
         android:layout_marginLeft="293dp"
         android:layout_alignTop="@+id/text_home"
-        android:textColor="@color/colorRedDisable"/>
+        android:textColor="@color/colorRedDisable"
+        android:onClick="alarmOnClick"/>
 
 </RelativeLayout>

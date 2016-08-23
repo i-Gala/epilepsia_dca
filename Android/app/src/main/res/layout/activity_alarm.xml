@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ua.igala.epilepsia_dca.ProfileActivity"
+    tools:context="com.ua.igala.epilepsia_dca.AlarmActivity"
     android:background="@drawable/ic_menu_updown_nexus_all">
 
     <ImageView
@@ -64,12 +64,13 @@
         android:layout_width="29dp"
         android:layout_height="29dp"
         android:id="@+id/ico_perfil"
-        android:background="@drawable/profile_white"
+        android:background="@drawable/profile_reddisable"
         android:layout_alignTop="@+id/ico_home"
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="220dp" />
+        android:layout_marginStart="220dp"
+        android:onClick="profileOnClick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,19 +79,20 @@
         android:text="@string/menu_perfil"
         android:id="@+id/text_perfil"
         android:layout_marginLeft="213dp"
-        android:layout_alignTop="@+id/text_home"/>
+        android:layout_alignTop="@+id/text_home"
+        android:textColor="@color/colorRedDisable"
+        android:onClick="profileOnClick"/>
 
     <ImageView
         android:layout_width="40dp"
         android:layout_height="29dp"
         android:id="@+id/ico_alarmas"
-        android:background="@drawable/alarm_reddisable"
+        android:background="@drawable/alarm_white"
         android:layout_alignTop="@+id/ico_home"
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="305dp"
-        android:onClick="alarmOnClick" />
+        android:layout_marginStart="305dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -99,93 +101,9 @@
         android:text="@string/menu_alarmas"
         android:id="@+id/text_alarmas"
         android:layout_marginLeft="293dp"
-        android:layout_alignTop="@+id/text_home"
-        android:textColor="@color/colorRedDisable"
-        android:onClick="alarmOnClick"/>
+        android:layout_alignTop="@+id/text_home"/>
 
     <!-- FIELDS -->
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/field_name"
-        android:ems="10"
-        android:id="@+id/field_name"
-        android:layout_marginTop="84dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:textColorHint="@color/colorHint"
-        android:textColor="@color/colorHint" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/field_lastname"
-        android:ems="10"
-        android:id="@+id/field_lastname"
-        android:enabled="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/field_name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:textColorHint="@color/colorHint"
-        android:textColor="@color/colorHint" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/field_email"
-        android:id="@+id/email"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/field_lastname"
-        android:layout_alignEnd="@+id/field_lastname"
-        android:textColor="@color/colorHint"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/field_email"
-        android:textColorHint="@color/colorHint"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/email"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/colorHint" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/field_password"
-        android:id="@+id/password"
-        android:layout_below="@+id/field_email"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/colorHint" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/field_password"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/password"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/colorHint" />
 
     <Button
         android:layout_width="100dp"

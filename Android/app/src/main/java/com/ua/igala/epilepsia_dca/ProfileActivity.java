@@ -61,6 +61,12 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void alarmOnClick(View v) {
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
+
+    }
+
     protected void sendOnClick(View v) {
         Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
         String field_name = et_name.getText().toString();
