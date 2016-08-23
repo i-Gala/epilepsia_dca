@@ -10,7 +10,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ua.igala.epilepsia_dca.model.TelefonoEmergencias;
+import com.ua.igala.epilepsia_dca.model.Usuario;
 import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
 
 public class AlarmActivity extends AppCompatActivity {
@@ -39,34 +42,23 @@ public class AlarmActivity extends AppCompatActivity {
         warning_bluetooth = (TextView) findViewById(R.id.text_bluetooth);
         warning_phone = (TextView) findViewById(R.id.text_telefono);
 
-        switch_phone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_phone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {  // Activar/desactivar switch de ALERTA TELÉFONO
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (switch_phone.isChecked()) {
-                    warning_phone.setText(R.string.sms_enable);
-                    phone_number.setVisibility(View.VISIBLE);
-                } else {
-                    warning_phone.setText(R.string.sms_disable);
-                    phone_number.setVisibility(View.INVISIBLE);
-                }
-
+                checkPhone();
                 state_phone = switch_phone.isChecked();
             }
         });
 
-        switch_bluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_bluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {  // Activar/desactivar switch de ALERTA BLUETOOTH
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(switch_bluetooth.isChecked())
-                    warning_bluetooth.setText(R.string.bluetooth_enable);
-                else
-                    warning_bluetooth.setText(R.string.bluetooth_disable);
-
+                checkBluetooth();
                 state_bluetooth = switch_bluetooth.isChecked();
             }
         });
 
-        cargarDatos();
+        cargarDatos();  // Actualizar los datos que vemos en pantalla
     }
 
     @Override
@@ -98,6 +90,71 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     protected void sendOnClick(View v) {
+        boolean exito = true;
+
+        try {
+            Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+            database.getDb().beginTransaction();
+            exito = database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
+                    database.getUserPassword(cursor, true), false, state_bluetooth, state_phone));
+            database.getDb().setTransactionSuccessful();
+        } finally {
+            database.getDb().endTransaction();
+        }
+
+
+
+        if(state_phone) {   // Si el teléfono está activo
+            if(!phone_number.getText().toString().equals("")) {
+                Cursor cursor = database.getTelefonoEmergenciasByUser(global.getIDUserOnline());
+                String phone = database.getPhone(cursor);
+                //Log.d("TELEFONO", phone);
+                int numberphone = Integer.parseInt(phone_number.getText().toString());
+                //Log.d("NUEVO_TELEFONO", phone_number.getText().toString());
+
+                if(phone.equals("PHONE_ERROR")) {   // No hay números de teléfono agregados
+                    try {
+                        database.getDb().beginTransaction();
+                        database.addTelefonoEmergencias(new TelefonoEmergencias(null, numberphone, global.getIDUserOnline()));
+                        database.getDb().setTransactionSuccessful();
+                    } finally {
+                        database.getDb().endTransaction();
+                    }
+                } /*else {
+                    try {
+                        cursor = database.getTelefonoEmergenciasByUser(global.getIDUserOnline());
+                        String idPhone = database.getTelefonoEmergenciasID(cursor);
+
+                        database.getDb().beginTransaction();
+                        exito = database.updateTelefonoEmergencias(new TelefonoEmergencias(idPhone, Integer.parseInt(phone_number.getText().toString()), global.getIDUserOnline()));
+                        database.getDb().setTransactionSuccessful();
+                    } finally {
+                        database.getDb().endTransaction();
+                    }
+                }*/
+            } else {             // Si se ha activado el teléfono y no se ha agregado teléfono: ERROR!!!
+                exito = false;
+                state_phone = false;
+                try {
+                    Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+                    database.getDb().beginTransaction();
+                    database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
+                            database.getUserPassword(cursor, true), false, state_bluetooth, state_phone));
+                    database.getDb().setTransactionSuccessful();
+                } finally {
+                    database.getDb().endTransaction();
+                }
+                cargarDatos();
+            }
+        }
+
+
+        if (exito)
+            Toast.makeText(getApplicationContext(), R.string.alarma_succesfully, Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(getApplicationContext(), R.string.alarma_error, Toast.LENGTH_LONG).show();
+            cargarDatos();
+        }
 
     }
 
@@ -106,34 +163,38 @@ public class AlarmActivity extends AppCompatActivity {
         state_bluetooth = (Integer.parseInt(database.getUserAlarmBluetooth(cursor, false)) != 0);
         state_phone = (Integer.parseInt(database.getUserAlarmPhone(cursor, true)) != 0);
 
+        switch_bluetooth.setChecked(state_bluetooth);
         checkBluetooth();
+        switch_phone.setChecked(state_phone);
         checkPhone();
+        checkNumberPhone();
     }
 
     private void checkBluetooth() {
-        if(state_bluetooth != switch_bluetooth.isChecked()) {
-            switch_bluetooth.setChecked(state_bluetooth);
-            if(switch_bluetooth.isChecked())
-                warning_bluetooth.setText(R.string.bluetooth_enable);
-            else
-                warning_bluetooth.setText(R.string.bluetooth_disable);
-        }
+        if(switch_bluetooth.isChecked())
+            warning_bluetooth.setText(R.string.bluetooth_enable);
+        else
+            warning_bluetooth.setText(R.string.bluetooth_disable);
     }
 
     private void checkPhone() {
-        if (state_phone != switch_phone.isChecked()) {
-            switch_phone.setChecked(state_phone);
-            if (switch_phone.isChecked()){
-                warning_phone.setText(R.string.sms_enable);
-                phone_number.setVisibility(View.VISIBLE);
-            } else {
-                warning_phone.setText(R.string.sms_disable);
-                phone_number.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        if(!state_phone)
+        if (switch_phone.isChecked()){
+            warning_phone.setText(R.string.sms_enable);
+            phone_number.setVisibility(View.VISIBLE);
+        } else {
+            warning_phone.setText(R.string.sms_disable);
             phone_number.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void checkNumberPhone() {
+        Cursor cursor = database.getTelefonoEmergenciasByUser(global.getIDUserOnline());
+        String phone = database.getPhone(cursor);
+        if(phone.equals("PHONE_ERROR")) {
+            phone_number.setText("");
+        } else {
+            phone_number.setText(phone+"");
+        }
     }
 
 }

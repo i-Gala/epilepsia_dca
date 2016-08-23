@@ -3,8 +3,10 @@ package com.ua.igala.epilepsia_dca.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
 
 import com.ua.igala.epilepsia_dca.model.Usuario;
 import com.ua.igala.epilepsia_dca.model.TelefonoEmergencias;
@@ -20,6 +22,7 @@ import com.ua.igala.epilepsia_dca.sqlite.Userdata.RegistrosSemanales;
 import com.ua.igala.epilepsia_dca.sqlite.Userdata.RegistrosMensuales;
 import com.ua.igala.epilepsia_dca.sqlite.Userdata.RegistrosAnuales;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public final class OperacionesBD {
@@ -269,6 +272,43 @@ public final class OperacionesBD {
      *         TELEFONO DE EMERGENCIAS        *
      ******************************************/
 
+    public String getPhone(Cursor c) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+        if(c.getCount() < 1) {
+            c.close();
+            return "PHONE_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(TelefonosEmergencias.TELEFONO);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        c.close();
+        return array[0];
+    }
+
+    public String getTelefonoEmergenciasID(Cursor c) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+        if(c.getCount() < 1) {
+            c.close();
+            return "PHONE_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(TelefonosEmergencias.ID);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+        c.close();
+        return array[0];
+    }
+
+
     public Cursor getTelefonoEmergencias() {
         SQLiteDatabase db = database.getReadableDatabase();
 
@@ -280,7 +320,7 @@ public final class OperacionesBD {
     public Cursor getTelefonoEmergenciasByUser(String idUser) {
         SQLiteDatabase db = database.getReadableDatabase();
 
-        String sql = String.format("SELECT * FROM %s WHERE %s=%s",
+        String sql = String.format("SELECT * FROM %s WHERE %s = '%s'",
                 Tablas.TELEFONO_EMERGENCIA, TelefonosEmergencias.ID_USUARIO, idUser);
 
         return db.rawQuery(sql, null);
@@ -296,7 +336,28 @@ public final class OperacionesBD {
         values.put(TelefonosEmergencias.TELEFONO, telefono_emergencias.telefono);
         values.put(TelefonosEmergencias.ID_USUARIO, telefono_emergencias.idUsuario);
 
+        /*Log.d("-----------------","-----------------");
+        Log.d("ValuesID", idTelefonoEmergencia);
+        Log.d("ValuesTLF", telefono_emergencias.telefono+"");
+        Log.d("ValuesUSER", telefono_emergencias.idUsuario);*/
+
         db.insertOrThrow(Tablas.TELEFONO_EMERGENCIA, null, values);
+        /*SQLiteDatabase db3 = database.getReadableDatabase();
+
+        String sql3 = String.format("SELECT * FROM %s",
+                Tablas.USUARIOS);
+
+        Log.d("ValuesUSU", "ValuesUSU");
+        DatabaseUtils.dumpCursor(db3.rawQuery(sql3, null));
+
+        String sql2 = String.format("SELECT * FROM %s",
+                Tablas.TELEFONO_EMERGENCIA);
+
+        Log.d("ValuesTLF", "ValuesTLF");
+        DatabaseUtils.dumpCursor(db.rawQuery(sql2, null));
+
+        Log.d("-----------------","-----------------");*/
+
         return idTelefonoEmergencia;
     }
 

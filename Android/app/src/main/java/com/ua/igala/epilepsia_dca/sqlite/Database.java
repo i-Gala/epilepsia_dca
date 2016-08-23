@@ -28,7 +28,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     interface Referencias {
-        String ID_USUARIOS = String.format("REFERENCES %s(%s) ON DELETE CASCADE",
+        String ID_USUARIOS = String.format("REFERENCES %s(%s)",
                 Tablas.USUARIOS, Usuarios.ID);
 
         String ID_TELEFONO_EMERGENCIA = String.format("REFERENCES %s(%s)",
@@ -66,48 +66,48 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL," +
-                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s INTENGER NOT NULL," +
-                        "%s INTENGER NOT NULL, %s INTENGER NOT NULL)",
-                Tablas.USUARIOS, BaseColumns._ID,
-                Usuarios.EMAIL, Usuarios.ID,
+        db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
+                        "%s TEXT UNIQUE NOT NULL, %s TEXT NOT NULL, " +
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL)",
+                Tablas.USUARIOS, Usuarios.ID,
+                Usuarios.EMAIL,
                 Usuarios.NOMBRE, Usuarios.APELLIDOS,
                 Usuarios.PASSWORD, Usuarios.FIRST_CONEXION,
                 Usuarios.ALARMA_BLUETOOTH, Usuarios.ALARMA_TELEFONO));
 
 
-        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL,%s INTENGER NOT NULL, %s TEXT NOT NULL %s)",
-                Tablas.TELEFONO_EMERGENCIA, BaseColumns._ID,
+        db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
+                        "%s INTEGER NOT NULL, %s TEXT NOT NULL %s)",
+                Tablas.TELEFONO_EMERGENCIA,
                 TelefonosEmergencias.ID, TelefonosEmergencias.TELEFONO,
                 TelefonosEmergencias.ID_USUARIO, Referencias.ID_USUARIOS));
 
-        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL,%s DATETIME NOT NULL, %s TEXT NOT NULL %s)",
-                Tablas.REGISTRO_DIARIO, BaseColumns._ID,
+        db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
+                        "%s DATETIME NOT NULL, %s TEXT NOT NULL %s)",
+                Tablas.REGISTRO_DIARIO,
                 RegistrosDiarios.ID, RegistrosDiarios.FECHA,
                 RegistrosDiarios.ID_USUARIO, Referencias.ID_USUARIOS));
 
-        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL,%s INTENGER NOT NULL, %s INTENGER NOT NULL," +
-                        "%s INTENGER NOT NULL, %s INTENGER NOT NULL %s)",
-                Tablas.REGISTRO_SEMANAL, BaseColumns._ID,
+        db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL %s)",
+                Tablas.REGISTRO_SEMANAL,
                 RegistrosSemanales.ID, RegistrosSemanales.DIA,
                 RegistrosSemanales.MES, RegistrosSemanales.ANYO,
                 RegistrosSemanales.ID_USUARIO, Referencias.ID_USUARIOS));
 
-        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL, %s INTENGER NOT NULL," +
-                        "%s INTENGER NOT NULL, %s INTENGER NOT NULL %s)",
-                Tablas.REGISTRO_MENSUAL, BaseColumns._ID,
+        db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
+                        "%s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL %s)",
+                Tablas.REGISTRO_MENSUAL,
                 RegistrosMensuales.ID,
                 RegistrosMensuales.MES, RegistrosMensuales.ANYO,
                 RegistrosMensuales.ID_USUARIO, Referencias.ID_USUARIOS));
 
-        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT UNIQUE NOT NULL, %s INTENGER NOT NULL, %s INTENGER NOT NULL %s)",
-                Tablas.REGISTRO_ANUAL, BaseColumns._ID,
+        db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL %s)",
+                Tablas.REGISTRO_ANUAL,
                 RegistrosAnuales.ID, RegistrosAnuales.ANYO,
                 RegistrosAnuales.ID_USUARIO, Referencias.ID_USUARIOS));
     }

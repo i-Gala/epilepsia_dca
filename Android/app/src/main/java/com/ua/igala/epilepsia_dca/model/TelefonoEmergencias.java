@@ -5,7 +5,7 @@ public class TelefonoEmergencias {
     public int telefono;
     public String idUsuario;
 
-    public TelefonoEmergencias(String getIdTelefonoEmergencias, int telefono, String idUsuario) {
+    public TelefonoEmergencias(String idTelefonoEmergencias, int telefono, String idUsuario) {
         this.idTelefonoEmergencias = idTelefonoEmergencias;
         this.telefono = telefono;
         this.idUsuario = idUsuario;

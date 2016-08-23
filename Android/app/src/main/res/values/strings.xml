@@ -33,6 +33,9 @@
     <string name="profile_succesfully">Perfil actualizado con éxito</string>
     <string name="profile_error">No se pudo actualizar el perfil</string>
 
+    <string name="alarma_succesfully">Alarmas configuradas con éxito</string>
+    <string name="alarma_error">No se han podido configurar todas las alarmas</string>
+
     <string name="menu_home">HOME</string>
     <string name="menu_registros">REGISTROS</string>
     <string name="menu_perfil">PERFIL</string>
