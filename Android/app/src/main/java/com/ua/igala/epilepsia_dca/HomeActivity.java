@@ -55,13 +55,8 @@ public class HomeActivity extends AppCompatActivity {
         mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
         Smartband.updateDeviceListAdapter(mDeviceListAdapter);
         switch (Smartband.getAngelState()) {
-            case IDLE:
-                Smartband.startScan();
-                showDeviceListDialog();
-                break;
-            case SCANNING:
-                Smartband.stopScan();
-                break;
+            case IDLE:      startScan();    break;
+            case SCANNING:  stopScan();     break;
             case CONNECTED: break;
         }
     }
@@ -87,7 +82,19 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startScan() {
+        Smartband.callScanCallback();
+        Smartband.setAngelState(SCANNING);
+        Smartband.startScan();
+        showDeviceListDialog();
+    }
 
+    private void stopScan() {
+        if(Smartband.getAngelState() == SCANNING) {
+            Smartband.stopScan();
+            Smartband.setAngelState(IDLE);
+        }
+    }
 
     private void showDeviceListDialog() {
         mDeviceListAdapter = Smartband.getDeviceListAdapter();

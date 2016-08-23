@@ -65,7 +65,7 @@ public class AngelSensor {
         this.angel_state = state;
     }
 
-    public void startScan() {
+    public void callScanCallback() {
         try {
             if (mBleScanner == null) {
                 mBleScanner = new BleScanner(mCurrentActivity, mScanCallback);
@@ -73,16 +73,14 @@ public class AngelSensor {
         } catch (BluetoothInaccessibleException e) {
             throw new AssertionError(R.string.bluetooth_error);
         }
+    }
 
-        angel_state = SCANNING;
+    public void startScan() {
         mBleScanner.startScan();
     }
 
     public void stopScan() {
-        if (angel_state == SCANNING) {
-            mBleScanner.stopScan();
-            angel_state = IDLE;
-        }
+        mBleScanner.stopScan();
     }
 
     public void updateDeviceListAdapter(ListItemsAdapter mDeviceListAdapter) {
