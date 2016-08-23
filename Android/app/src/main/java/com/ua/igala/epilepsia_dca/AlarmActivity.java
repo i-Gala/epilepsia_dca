@@ -49,6 +49,8 @@ public class AlarmActivity extends AppCompatActivity {
                     warning_phone.setText(R.string.sms_disable);
                     phone_number.setVisibility(View.INVISIBLE);
                 }
+
+                state_phone = switch_phone.isChecked();
             }
         });
 
@@ -59,12 +61,12 @@ public class AlarmActivity extends AppCompatActivity {
                     warning_bluetooth.setText(R.string.bluetooth_enable);
                 else
                     warning_bluetooth.setText(R.string.bluetooth_disable);
+
+                state_bluetooth = switch_bluetooth.isChecked();
             }
         });
 
         cargarDatos();
-        if(!state_phone)
-            phone_number.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -73,6 +75,8 @@ public class AlarmActivity extends AppCompatActivity {
         if(global.getOnlineUser() == false) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        } else {
+            cargarDatos();
         }
     }
 
@@ -127,6 +131,9 @@ public class AlarmActivity extends AppCompatActivity {
                 phone_number.setVisibility(View.INVISIBLE);
             }
         }
+
+        if(!state_phone)
+            phone_number.setVisibility(View.INVISIBLE);
     }
 
 }
