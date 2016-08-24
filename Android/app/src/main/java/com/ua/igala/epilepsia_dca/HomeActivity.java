@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.angel.sdk.BleDevice;
 
@@ -75,14 +76,14 @@ public class HomeActivity extends AppCompatActivity {
             conectar();
     }
 
-    @Override
+    /*@Override
     protected void onStop() {
         super.onStop();
         mostrarSenyal(0);
         unscheduleUpdaters();
         if(!dispositivoBle_direccion.equals(""))
-            dispositivoBle.disconnect();
-    }
+            desconectar();
+    }*/
 
     /****************************************************************
      *                            ONCLICK                           *
@@ -142,11 +143,14 @@ public class HomeActivity extends AppCompatActivity {
     private final BleDevice.LifecycleCallback deviceLifecycleCallback = new BleDevice.LifecycleCallback() {
         @Override
         public void onBluetoothServicesDiscovered(BleDevice dispositivo) {
+            Log.d("GETSERVICIOS", "INICIO");
             dispositivo = smartband.getServicios(dispositivo);
+            Log.d("GETSERVICIOS", "OBTENIDOS");
 
             //dibujar todos los servicios
-           /* mostrarBateria();
-            mostrarHR();
+            Log.d("GETSERVICIOS", "MOSTRAR_BATERIA");
+            mostrarBateria(smartband.getValueBattery());
+            /*mostrarHR();
             mostrarTemperatura();
             mostrarStepCount();*/
         }
@@ -155,6 +159,7 @@ public class HomeActivity extends AppCompatActivity {
         public void onBluetoothDeviceDisconnected() {
             mostrarDesconexion();
             unscheduleUpdaters();
+            conectar();
         }
 
         public void onReadRemoteRssi(final int rssi) {
@@ -248,8 +253,31 @@ public class HomeActivity extends AppCompatActivity {
         int value_stepcount = smartband.getValueStepCount();
     }
 
-    private void mostrarBateria() {
-        int value_bateria = smartband.getValueBattery();
+    private void mostrarSenyal(int fuerza_senyal) {
+
+    }
+
+    private void mostrarBateria(int nivel_bateria) {
+        int idIcono = R.drawable.bateria_0_white_t;
+        Log.d("MOSTRAR_BATERIA", nivel_bateria+"");
+
+        if(nivel_bateria <= 0)
+            idIcono = R.drawable.bateria_0_white_t;
+        else if(nivel_bateria <= 25)
+            idIcono = R.drawable.bateria_25_white_t;
+        else if(nivel_bateria <= 50)
+            idIcono = R.drawable.bateria_50_white_t;
+        else if(nivel_bateria <= 75)
+            idIcono = R.drawable.bateria_75_white_t;
+        else if(nivel_bateria <= 100)
+            idIcono = R.drawable.bateria_100_white_t;
+
+        Log.d("MOSTRAR_BATERIA", "EDITAR");
+        ImageView icono = (ImageView) findViewById(R.id.battery_icon);
+        icono.setBackgroundResource(idIcono);
+        TextView info =(TextView) findViewById(R.id.battery_medida);
+        info.setText(nivel_bateria + "%");
+        Log.d("MOSTRAR_BATERIA", "FINAL");
     }
 
     private void mostrarDesconexion() {
@@ -257,22 +285,12 @@ public class HomeActivity extends AppCompatActivity {
         mostrarBateria(0);
     }
 
-    private void mostrarSenyal(int fuerza_senyal) {
-
-    }
-
-    private void mostrarBateria(int nivel_bateria) {
-
-    }
-
     private void mostrarDispositivoEnlazado() {
-        Log.d("MostrarDE", "VAMOS_CAMBIAR");
         switch (smartband.getSmartbandState()) {
-            case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white); Log.d("MostrarDE", "DESCONECTADO"); break;
-            case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);    Log.d("MostrarDE", "CONECTADO"); break;
+            case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white);  break;
+            case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;
             default:        break;
         }
-        Log.d("MostrarDE", "MOSTRADO");
     }
 
     /****************************************************************
