@@ -156,4 +156,81 @@
         android:layout_alignTop="@+id/battery_name"
         android:layout_alignEnd="@+id/logout" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:id="@+id/hr_background"
+        android:background="@drawable/inc_option2"
+        android:layout_below="@+id/bluetooth_connected"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="116dp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/hr_icon"
+        android:background="@drawable/ico_hr"
+        android:layout_alignTop="@+id/hr_background"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="27dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/medida_bpm_name"
+        android:id="@+id/hr_name"
+        android:layout_marginLeft="0dp"
+        android:layout_alignTop="@+id/hr_background"
+        android:layout_alignStart="@+id/text_registro"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0bpm"
+        android:id="@+id/hr_medida"
+        android:layout_alignTop="@+id/hr_name"
+        android:layout_alignEnd="@+id/logout" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:id="@+id/temperatura_background"
+        android:background="@drawable/inc_option4"
+        android:layout_below="@+id/hr_background"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="22dp"
+        android:layout_height="40dp"
+        android:id="@+id/temperatura_icon"
+        android:background="@drawable/ico_temperature"
+        android:layout_alignTop="@+id/temperatura_background"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/medida_temperatura_name"
+        android:id="@+id/temperatura_name"
+        android:layout_marginLeft="0dp"
+        android:layout_alignTop="@+id/temperatura_background"
+        android:layout_alignStart="@+id/text_registro"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0º"
+        android:id="@+id/temperatura_medida"
+        android:layout_alignTop="@+id/temperatura_name"
+        android:layout_alignEnd="@+id/logout" />
+
 </RelativeLayout>

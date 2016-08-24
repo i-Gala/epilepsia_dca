@@ -276,13 +276,16 @@ public class HomeActivity extends AppCompatActivity {
         ImageView icono = (ImageView) findViewById(R.id.battery_icon);
         icono.setBackgroundResource(idIcono);
         TextView info =(TextView) findViewById(R.id.battery_medida);
-        info.setText(nivel_bateria + "%");
+        if(nivel_bateria < 0)
+            info.setText("-%");
+        else
+            info.setText(nivel_bateria + "%");
         Log.d("MOSTRAR_BATERIA", "FINAL");
     }
 
     private void mostrarDesconexion() {
         mostrarSenyal(-99);
-        mostrarBateria(0);
+        mostrarBateria(-99);
     }
 
     private void mostrarDispositivoEnlazado() {
