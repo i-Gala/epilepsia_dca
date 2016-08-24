@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import junit.framework.Assert;
 
 public class HomeActivity extends AppCompatActivity {
     Smartband smartband = Smartband.getInstance();
+    Global global = Global.getInstance();
 
     // Definimos los estados en los que puede estar la conexión con la smartband
     private static final int IDLE = 0;
@@ -39,11 +39,9 @@ public class HomeActivity extends AppCompatActivity {
     private Dialog mDeviceListDialog;
     private ListItemsAdapter mDeviceListAdapter;
 
-    private BleDevice dispositivoBle;
     private Handler handler;
     private Runnable lectorPeriodico;
 
-    private String dispositivoBle_direccion = "";
 
 
     ImageView ICON_CONNECTED;
@@ -58,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         lectorPeriodico = new Runnable() {
             @Override
             public void run() {
-                dispositivoBle.readRemoteRssi();
+                global.getDispositivoBle().readRemoteRssi();
                 smartband.readAccelerationEnergyMagnitude();
                 mostrarCalorias();
                 handler.postDelayed(lectorPeriodico, RSSI_UPDATE_INTERVAL);
@@ -72,18 +70,24 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-        if(!dispositivoBle_direccion.equals(""))
+        if(!global.getDispositivoBleDireccion().equals(""))
             conectar();
     }
 
-    /*@Override
-    protected void onStop() {
-        super.onStop();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_home);
+        mostrarDispositivoEnlazado();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         mostrarSenyal(0);
         unscheduleUpdaters();
-        if(!dispositivoBle_direccion.equals(""))
-            desconectar();
-    }*/
+        desconectar();
+    }
 
     /****************************************************************
      *                            ONCLICK                           *
@@ -95,15 +99,19 @@ public class HomeActivity extends AppCompatActivity {
         switch (smartband.getSmartbandState()) {
             case IDLE:      startScan();    break;
             case SCANNING:  stopScan();     break;
-            case CONNECTED: break;
+            case CONNECTED: desconectar();  break;
         }
     }
 
     protected void logoutOnClick(View v) {
         mostrarSenyal(0);
         unscheduleUpdaters();
-        if(!dispositivoBle_direccion.equals(""))
+        if(!global.getDispositivoBleDireccion().equals(""))
             desconectar();
+
+        mostrarSenyal(0);
+        unscheduleUpdaters();
+        desconectar();
 
         Global.getInstance().setOnlineUser(false);
         Global.getInstance().setIDUserOnline(null);
@@ -126,34 +134,35 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void conectar() {
-        if(dispositivoBle != null)
+        if(global.getDispositivoBle() != null)
             desconectar();
 
-        dispositivoBle = new BleDevice(this, deviceLifecycleCallback, handler);
+        global.setDispositivoBle(new BleDevice(this, deviceLifecycleCallback, handler));
 
-        smartband.registrarServicios(dispositivoBle);
+        smartband.registrarServicios(global.getDispositivoBle());
         smartband.setSmartbandState(CONNECTED);
         mostrarDispositivoEnlazado();
-        dispositivoBle.connect(dispositivoBle_direccion);
+        global.getDispositivoBle().connect(global.getDispositivoBleDireccion());
         scheduleUpdaters();
         mostrarDesconexion();
     }
 
     private void desconectar() {
-        dispositivoBle.disconnect();
-        smartband.setSmartbandState(IDLE);
-        mostrarDispositivoEnlazado();
+        if(global.getDispositivoBle() != null || smartband.getSmartbandState() == CONNECTED) {
+            global.getDispositivoBle().disconnect();
+            smartband.setSmartbandState(IDLE);
+            mostrarDispositivoEnlazado();
+            mostrarBateria(-99);
+            mostrarSenyal(0);
+        }
     }
 
     private final BleDevice.LifecycleCallback deviceLifecycleCallback = new BleDevice.LifecycleCallback() {
         @Override
         public void onBluetoothServicesDiscovered(BleDevice dispositivo) {
-            Log.d("GETSERVICIOS", "INICIO");
             dispositivo = smartband.getServicios(dispositivo);
-            Log.d("GETSERVICIOS", "OBTENIDOS");
 
             //dibujar todos los servicios
-            Log.d("GETSERVICIOS", "MOSTRAR_BATERIA");
             mostrarBateria(smartband.getValueBattery());
             mostrarHR();
             mostrarTemperatura();
@@ -171,6 +180,7 @@ public class HomeActivity extends AppCompatActivity {
             mostrarSenyal(rssi);
             mostrarBateria(smartband.getValueBattery());
             mostrarHR();
+            mostrarTemperatura();
         }
 
 
@@ -188,10 +198,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void stopScan() {
-        if(smartband.getSmartbandState() == SCANNING) {
-            smartband.stopScan();
-            smartband.setSmartbandState(IDLE);
-        }
+        smartband.stopScan();
+        smartband.setSmartbandState(IDLE);
     }
 
     private void showDeviceListDialog() {
@@ -209,9 +217,9 @@ public class HomeActivity extends AppCompatActivity {
 
                 BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
                 Assert.assertTrue(bluetoothDevice != null);
-                dispositivoBle_direccion = bluetoothDevice.getAddress();
+                global.setDispositivoBleDireccion(bluetoothDevice.getAddress());
 
-                if(!dispositivoBle_direccion.equals("")) {
+                if(!global.getDispositivoBleDireccion().equals("")) {
                     smartband.setSmartbandState(CONNECTED);
                     mostrarDispositivoEnlazado();
 
@@ -235,36 +243,21 @@ public class HomeActivity extends AppCompatActivity {
 
     private void mostrarCalorias() {
         int accelerationEnergyMagnitude = smartband.getValueAccelerationEnergyMagnitude();
-        /*TextView textView = (TextView) findViewById(R.id.textview_acceleration);
-        Assert.assertNotNull(textView);
-        textView.setText(accelerationEnergyMagnitude + "g");
-
-        ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        effect.setDuration(ANIMATION_DURATION);
-        effect.setRepeatMode(Animation.REVERSE);
-        effect.setRepeatCount(1);
-
-        View imageView = findViewById(R.id.imageview_acceleration);
-        imageView.startAnimation(effect);*/
     }
 
     private void mostrarHR() {
         int value_hr = smartband.getValueHR();
-
-        Log.d("MOSTRAR_HR", value_hr + "");
+        Log.d("value_hr", value_hr+"");
         TextView info =(TextView) findViewById(R.id.hr_medida);
         info.setText(value_hr + "bpm");
-        Log.d("MOSTRAR_HR", "SALIR");
     }
 
     private void mostrarTemperatura() {
         double value_temperatura = smartband.getValueTemperature();
+        Log.d("value_temperatura", value_temperatura+"");
 
-        Log.d("MOSTRAR_TEMPERATURA", value_temperatura + "");
         TextView info =(TextView) findViewById(R.id.temperatura_medida);
-        //info.setText(value_temperatura + "º");
-        info.setText(String.format("%.1f", value_temperatura)+"º");
-        Log.d("MOSTRAR_TEMPERATURA", "SALIR");
+        info.setText(String.format("%.1f", value_temperatura) + "º");
 
     }
 
@@ -273,12 +266,29 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void mostrarSenyal(int fuerza_senyal) {
+        int idIcono = R.drawable.senyal_0_white_t;
+        Log.d("fuerza_senyal", fuerza_senyal+"");
 
+        if (fuerza_senyal > -70)
+            idIcono = R.drawable.senyal_100_white_t;
+        else if (fuerza_senyal > - 80)
+            idIcono = R.drawable.senyal_75_white_t;
+        else if (fuerza_senyal > - 85)
+            idIcono = R.drawable.senyal_50_white_t;
+        else if (fuerza_senyal > - 87)
+            idIcono = R.drawable.senyal_25_white_t;
+        else
+            idIcono = R.drawable.senyal_0_white_t;
+
+        ImageView icono = (ImageView) findViewById(R.id.signal_icon);
+        icono.setBackgroundResource(idIcono);
+        TextView info =(TextView) findViewById(R.id.signal_medida);
+        info.setText(fuerza_senyal + "db");
     }
 
     private void mostrarBateria(int nivel_bateria) {
         int idIcono = R.drawable.bateria_0_white_t;
-        Log.d("MOSTRAR_BATERIA", nivel_bateria+"");
+        Log.d("nivel_bateria", nivel_bateria+"");
 
         if(nivel_bateria <= 0)
             idIcono = R.drawable.bateria_0_white_t;
@@ -291,7 +301,6 @@ public class HomeActivity extends AppCompatActivity {
         else if(nivel_bateria <= 100)
             idIcono = R.drawable.bateria_100_white_t;
 
-        Log.d("MOSTRAR_BATERIA", "EDITAR");
         ImageView icono = (ImageView) findViewById(R.id.battery_icon);
         icono.setBackgroundResource(idIcono);
         TextView info =(TextView) findViewById(R.id.battery_medida);
@@ -299,7 +308,6 @@ public class HomeActivity extends AppCompatActivity {
             info.setText("-%");
         else
             info.setText(nivel_bateria + "%");
-        Log.d("MOSTRAR_BATERIA", "FINAL");
     }
 
     private void mostrarDesconexion() {

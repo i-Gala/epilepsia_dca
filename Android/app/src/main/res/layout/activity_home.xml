@@ -102,7 +102,8 @@
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="305dp" />
+        android:layout_marginStart="305dp"
+        android:onClick="alarmOnClick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -145,7 +146,8 @@
         android:layout_marginLeft="0dp"
         android:layout_alignTop="@+id/battery_background"
         android:layout_alignStart="@+id/text_registro"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/background_light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -154,7 +156,48 @@
         android:text="0%"
         android:id="@+id/battery_medida"
         android:layout_alignTop="@+id/battery_name"
-        android:layout_alignEnd="@+id/logout" />
+        android:layout_alignEnd="@+id/logout"
+        android:textColor="@android:color/background_light" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:id="@+id/signal_background"
+        android:background="@drawable/inc_option1_1"
+        android:layout_above="@+id/battery_icon"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:id="@+id/signal_icon"
+        android:background="@drawable/senyal_0_white_t"
+        android:layout_alignTop="@+id/signal_background"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/medida_senyal_name"
+        android:id="@+id/signal_name"
+        android:layout_marginLeft="0dp"
+        android:layout_alignTop="@+id/signal_background"
+        android:layout_alignStart="@+id/text_registro"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0db"
+        android:id="@+id/signal_medida"
+        android:layout_alignTop="@+id/signal_name"
+        android:layout_alignEnd="@+id/logout"
+        android:textColor="@android:color/background_light" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -185,7 +228,8 @@
         android:layout_marginLeft="0dp"
         android:layout_alignTop="@+id/hr_background"
         android:layout_alignStart="@+id/text_registro"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/background_light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -194,7 +238,8 @@
         android:text="0bpm"
         android:id="@+id/hr_medida"
         android:layout_alignTop="@+id/hr_name"
-        android:layout_alignEnd="@+id/logout" />
+        android:layout_alignEnd="@+id/logout"
+        android:textColor="@android:color/background_light" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -224,7 +269,8 @@
         android:layout_marginLeft="0dp"
         android:layout_alignTop="@+id/temperatura_background"
         android:layout_alignStart="@+id/text_registro"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/background_light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -233,6 +279,7 @@
         android:text="0º"
         android:id="@+id/temperatura_medida"
         android:layout_alignTop="@+id/temperatura_name"
-        android:layout_alignEnd="@+id/logout" />
+        android:layout_alignEnd="@+id/logout"
+        android:textColor="@android:color/background_light" />
 
 </RelativeLayout>
