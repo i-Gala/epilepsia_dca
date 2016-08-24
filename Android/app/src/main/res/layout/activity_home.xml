@@ -7,6 +7,8 @@
     tools:context="com.ua.igala.epilepsia_dca.HomeActivity"
     android:background="@drawable/ic_menu_updown_nexus_all">
 
+    <!-- MENU TOP -->
+
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -24,6 +26,8 @@
         android:onClick="logoutOnClick"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ico_alarmas" />
+
+    <!-- MENU BOTTOM -->
 
     <ImageView
         android:layout_width="29dp"
@@ -83,10 +87,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/menu_perfil"
-        android:textColor="@color/colorRedDisable"
         android:id="@+id/text_perfil"
         android:layout_marginLeft="213dp"
         android:layout_alignTop="@+id/text_home"
+        android:textColor="@color/colorRedDisable"
         android:onClick="profileOnClick"/>
 
     <ImageView
@@ -98,8 +102,7 @@
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="305dp"
-        android:onClick="alarmOnClick" />
+        android:layout_marginStart="305dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,5 +114,46 @@
         android:layout_alignTop="@+id/text_home"
         android:textColor="@color/colorRedDisable"
         android:onClick="alarmOnClick"/>
+
+    <!-- MEDIDAS -->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:id="@+id/battery_background"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/inc_option1"
+        android:layout_above="@+id/ico_registro"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="20dp"
+        android:id="@+id/battery_icon"
+        android:background="@drawable/bateria_0_white_t"
+        android:layout_alignTop="@+id/battery_background"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/medida_bateria_name"
+        android:id="@+id/battery_name"
+        android:layout_marginLeft="0dp"
+        android:layout_alignTop="@+id/battery_background"
+        android:layout_alignStart="@+id/text_registro"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0%"
+        android:id="@+id/battery_medida"
+        android:layout_alignTop="@+id/battery_name"
+        android:layout_alignEnd="@+id/logout" />
 
 </RelativeLayout>

@@ -4,6 +4,14 @@
     <string name="bluetooth_error">No se puede acceder al Bluetooth.</string>
     <string name="bluetooth_devicelist">Seleccione un dispositivo</string>
 
+    <string name="dispositivo_conectado">CONECTADO</string>
+    <string name="dispositivo_desconectado">DESCONECTADO</string>
+    <string name="dispositivo_buscando">BUSCANDO...</string>
+
+    <string name="medida_bateria_name">BATERÍA</string>
+    <string name="medida_senyal_name">SEÑAL</string>
+    <string name="medida_bpm_name">RITMO CARDIACO</string>
+    <string name="medida_temperatura_name">TEMPERATURA</string>
 
     <string name="login">Iniciar sesión</string>
     <string name="signUp">Registrarse</string>

@@ -169,7 +169,7 @@ public class HomeActivity extends AppCompatActivity {
      ****************************************************************/
 
     private void startScan() {
-        smartband.ScanCallback();
+        smartband.buscarDispositivoSmartband();
         smartband.setSmartbandState(SCANNING);
         smartband.startScan();
         showDeviceListDialog();

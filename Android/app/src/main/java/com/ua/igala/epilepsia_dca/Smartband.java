@@ -41,7 +41,7 @@ public class Smartband {
      *                            BLUETOOTH                         *
      ****************************************************************/
 
-    public void ScanCallback() {
+    public void buscarDispositivoSmartband() {
         AngelSensor.ScanCallback();
     }
 
