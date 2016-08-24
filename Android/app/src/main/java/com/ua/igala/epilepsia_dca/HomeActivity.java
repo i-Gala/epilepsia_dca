@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,11 +38,11 @@ public class HomeActivity extends AppCompatActivity {
     private Dialog mDeviceListDialog;
     private ListItemsAdapter mDeviceListAdapter;
 
-    private BleDevice dispositivosBluetooth;
+    private BleDevice dispositivoBle;
     private Handler handler;
     private Runnable lectorPeriodico;
 
-    private String bluetooth_nombre;
+    private String dispositivoBle_direccion = "";
 
 
     ImageView ICON_CONNECTED;
@@ -55,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         lectorPeriodico = new Runnable() {
             @Override
             public void run() {
-                dispositivosBluetooth.readRemoteRssi();
+                dispositivoBle.readRemoteRssi();
                 smartband.readAccelerationEnergyMagnitude();
                 mostrarCalorias();
                 handler.postDelayed(lectorPeriodico, RSSI_UPDATE_INTERVAL);
@@ -64,17 +66,27 @@ public class HomeActivity extends AppCompatActivity {
 
         smartband.setActivity(this);
         smartband.configurateStates(IDLE, SCANNING, CONNECTED);
-        switch (smartband.getSmartbandState()) {
-            case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white);  break;
-            case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;
-            default:        break;
-        }
+        mostrarDispositivoEnlazado();
     }
 
     protected void onStart() {
         super.onStart();
-        conectar();
+        if(!dispositivoBle_direccion.equals(""))
+            conectar();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mostrarSenyal(0);
+        unscheduleUpdaters();
+        if(!dispositivoBle_direccion.equals(""))
+            dispositivoBle.disconnect();
+    }
+
+    /****************************************************************
+     *                            ONCLICK                           *
+     ****************************************************************/
 
     protected void scanOnClick(View v) {
         mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
@@ -107,6 +119,55 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void conectar() {
+        if(dispositivoBle != null)
+            desconectar();
+
+        dispositivoBle = new BleDevice(this, deviceLifecycleCallback, handler);
+
+        smartband.registrarServicios(dispositivoBle);
+        smartband.setSmartbandState(CONNECTED);
+        mostrarDispositivoEnlazado();
+        dispositivoBle.connect(dispositivoBle_direccion);
+        scheduleUpdaters();
+        mostrarDesconexion();
+    }
+
+    private void desconectar() {
+        dispositivoBle.disconnect();
+        smartband.setSmartbandState(IDLE);
+        mostrarDispositivoEnlazado();
+    }
+
+    private final BleDevice.LifecycleCallback deviceLifecycleCallback = new BleDevice.LifecycleCallback() {
+        @Override
+        public void onBluetoothServicesDiscovered(BleDevice dispositivo) {
+            dispositivo = smartband.getServicios(dispositivo);
+
+            //dibujar todos los servicios
+           /* mostrarBateria();
+            mostrarHR();
+            mostrarTemperatura();
+            mostrarStepCount();*/
+        }
+
+        @Override
+        public void onBluetoothDeviceDisconnected() {
+            mostrarDesconexion();
+            unscheduleUpdaters();
+        }
+
+        public void onReadRemoteRssi(final int rssi) {
+            mostrarSenyal(rssi);
+        }
+
+
+    };
+
+    /****************************************************************
+     *                       ESCANER BLUETOOTH                      *
+     ****************************************************************/
+
     private void startScan() {
         smartband.ScanCallback();
         smartband.setSmartbandState(SCANNING);
@@ -120,34 +181,6 @@ public class HomeActivity extends AppCompatActivity {
             smartband.setSmartbandState(IDLE);
         }
     }
-
-    private void conectar() {
-        if(dispositivosBluetooth != null)
-            dispositivosBluetooth.disconnect();
-        dispositivosBluetooth = new BleDevice(this, deviceLivecycleCallback, handler);
-
-        //incomplete
-    }
-
-    private final BleDevice.LifecycleCallback deviceLivecycleCallback = new BleDevice.LifecycleCallback() {
-        @Override
-        public void onBluetoothServicesDiscovered(BleDevice dispositivo) {
-            dispositivo = smartband.getServices(dispositivo);
-
-            //dibujar todos los servicios
-        }
-
-        @Override
-        public void onBluetoothDeviceDisconnected() {
-
-        }
-
-        public void onReadRemoteRssi(final int rssi) {
-
-        }
-
-
-    };
 
     private void showDeviceListDialog() {
         mDeviceListAdapter = smartband.getDeviceListAdapter();
@@ -164,9 +197,14 @@ public class HomeActivity extends AppCompatActivity {
 
                 BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
                 Assert.assertTrue(bluetoothDevice != null);
-                bluetooth_nombre = bluetoothDevice.getAddress();
-                ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);
-                smartband.setSmartbandState(CONNECTED);
+                dispositivoBle_direccion = bluetoothDevice.getAddress();
+
+                if(!dispositivoBle_direccion.equals("")) {
+                    smartband.setSmartbandState(CONNECTED);
+                    mostrarDispositivoEnlazado();
+
+                    conectar();
+                }
             }
         });
 
@@ -178,6 +216,10 @@ public class HomeActivity extends AppCompatActivity {
         });
         mDeviceListDialog.show();
     }
+
+    /****************************************************************
+     *                      APARTADO GRÁFICO                        *
+     ****************************************************************/
 
     private void mostrarCalorias() {
         int accelerationEnergyMagnitude = smartband.getValueAccelerationEnergyMagnitude();
@@ -192,5 +234,56 @@ public class HomeActivity extends AppCompatActivity {
 
         View imageView = findViewById(R.id.imageview_acceleration);
         imageView.startAnimation(effect);*/
+    }
+
+    private void mostrarHR() {
+        int value_hr = smartband.getValueHR();
+    }
+
+    private void mostrarTemperatura() {
+        double value_temperatura = smartband.getValueTemperature();
+    }
+
+    private void mostrarStepCount() {
+        int value_stepcount = smartband.getValueStepCount();
+    }
+
+    private void mostrarBateria() {
+        int value_bateria = smartband.getValueBattery();
+    }
+
+    private void mostrarDesconexion() {
+        mostrarSenyal(-99);
+        mostrarBateria(0);
+    }
+
+    private void mostrarSenyal(int fuerza_senyal) {
+
+    }
+
+    private void mostrarBateria(int nivel_bateria) {
+
+    }
+
+    private void mostrarDispositivoEnlazado() {
+        Log.d("MostrarDE", "VAMOS_CAMBIAR");
+        switch (smartband.getSmartbandState()) {
+            case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white); Log.d("MostrarDE", "DESCONECTADO"); break;
+            case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);    Log.d("MostrarDE", "CONECTADO"); break;
+            default:        break;
+        }
+        Log.d("MostrarDE", "MOSTRADO");
+    }
+
+    /****************************************************************
+     *                           HANDLER                            *
+     ****************************************************************/
+
+    private void scheduleUpdaters() {
+        handler.post(lectorPeriodico);
+    }
+
+    private void unscheduleUpdaters() {
+        handler.removeCallbacks(lectorPeriodico);
     }
 }

@@ -90,8 +90,49 @@ public class Smartband {
         return AngelSensor.getValueAccelerationEnergyMagnitude();
     }
 
-    public BleDevice getServices(BleDevice dispositivo) {
+    /****************************************************************
+     *                      ACTIVITY MONITORING                     *
+     *                           (PASOS)                            *
+     ****************************************************************/
+
+    public int getValueStepCount() {
+        return AngelSensor.getValueStepCount();
+    }
+
+    /****************************************************************
+     *                           BATERÍA                            *
+     ****************************************************************/
+
+    public int getValueBattery() {
+        return AngelSensor.getValueBattery();
+    }
+
+    /****************************************************************
+     *                       TEMPERATURA                            *
+     ****************************************************************/
+
+    public double getValueTemperature() {
+        return AngelSensor.getValueTemperature();
+    }
+
+    /****************************************************************
+     *                        HEART RATE                            *
+     ****************************************************************/
+
+    public int getValueHR() {
+        return AngelSensor.getValueHR();
+    }
+
+    /****************************************************************
+     *                       PRESTACIONES                           *
+     ****************************************************************/
+
+    public BleDevice getServicios(BleDevice dispositivo) {
         return AngelSensor.getServices(dispositivo);
+    }
+
+    public boolean registrarServicios(BleDevice dispositivo) {
+        return AngelSensor.registerServices(dispositivo);
     }
 
 

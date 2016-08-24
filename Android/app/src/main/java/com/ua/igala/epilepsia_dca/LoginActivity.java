@@ -49,12 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         String BDPassword = database.getUserPassword(database.getUsuarioByEmail(field_email), true);
         if(field_password.equals(BDPassword)) {
             Toast.makeText(getApplicationContext(), R.string.login_succesfully, Toast.LENGTH_LONG).show();
-            /*Global.getInstance().setOnlineUser(true);
-            Global.getInstance().setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email)));*/
+
             global.setOnlineUser(true);
-            Log.d("IDGET",database.getUserID(database.getUsuarioByEmail(field_email), true));
             global.setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email), true));
-            Log.d("IDALMACENADA",global.getIDUserOnline());
+
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         } else {

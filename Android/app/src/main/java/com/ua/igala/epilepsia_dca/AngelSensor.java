@@ -17,6 +17,8 @@ import com.angel.sdk.SrvBattery;
 import com.angel.sdk.SrvHealthThermometer;
 import com.angel.sdk.SrvHeartRate;
 
+import junit.framework.Assert;
+
 /**
  * Se trata de una clase fachada, para en el futuro facilitar
  * el cambio de pulsera
@@ -38,9 +40,9 @@ public class AngelSensor {
     private ChAccelerationEnergyMagnitude mChAccelerationEnergyMagnitude = null;
     private int value_accelerationEnergyMagnitude;    // Calorias
     private int value_HR;
-    private float value_Temperatura;
-    private int value_Bateria;
-    private int value_StepCount;
+    private double value_temperature;
+    private int value_battery;
+    private int value_stepCount;
 
     /****************************************************************
      *                           CONSTRUCTOR                        *
@@ -132,10 +134,10 @@ public class AngelSensor {
         return actividad_actual;
     }
 
-    public void setActivity(Activity mCurrentActivity){
+    public void setActivity(Activity actividad){
         // Como los datos deben aparecer en HomeActivity, debemos recibir
         // la actividad real para que la aplicación funcione
-        this.actividad_actual = mCurrentActivity;
+        this.actividad_actual = actividad;
     }
 
 
@@ -163,7 +165,8 @@ public class AngelSensor {
     }
 
     public void addServiceAccelerationEnergyMagnitude(BleDevice dispositivo) {
-        dispositivo.getService(SrvActivityMonitoring.class).getChAccelerationEnergyMagnitude();
+        mChAccelerationEnergyMagnitude = dispositivo.getService(SrvActivityMonitoring.class).getChAccelerationEnergyMagnitude();
+        Assert.assertNotNull(mChAccelerationEnergyMagnitude);
     }
 
     /****************************************************************
@@ -179,9 +182,13 @@ public class AngelSensor {
             new BleCharacteristic.ValueReadyCallback<ChStepCount.StepCountValue>() {
                 @Override
                 public void onValueReady(final ChStepCount.StepCountValue stepCountValue) {
-                    value_StepCount = stepCountValue.value;
+                    value_stepCount = stepCountValue.value;
                 }
             };
+
+    public int getValueStepCount() {
+        return value_stepCount;
+    }
 
     /****************************************************************
      *                           BATERÍA                            *
@@ -195,9 +202,13 @@ public class AngelSensor {
             new BleCharacteristic.ValueReadyCallback<ChBatteryLevel.BatteryLevelValue>() {
                 @Override
                 public void onValueReady(final ChBatteryLevel.BatteryLevelValue batteryLevel) {
-                    value_Bateria = batteryLevel.value;
+                    value_battery = batteryLevel.value;
                 }
             };
+
+    public int getValueBattery() {
+        return value_battery;
+    }
 
     /****************************************************************
      *                       TEMPERATURA                            *
@@ -211,9 +222,13 @@ public class AngelSensor {
             new BleCharacteristic.ValueReadyCallback<ChTemperatureMeasurement.TemperatureMeasurementValue>() {
                 @Override
                 public void onValueReady(final ChTemperatureMeasurement.TemperatureMeasurementValue temperature) {
-                    value_Temperatura = temperature.getTemperatureMeasurement();
+                    value_temperature = temperature.getTemperatureMeasurement();
                 }
             };
+
+    public double getValueTemperature() {
+        return getValueTemperature();
+    }
 
     /****************************************************************
      *                        HEART RATE                            *
@@ -230,6 +245,10 @@ public class AngelSensor {
         }
     };
 
+    public int getValueHR() {
+        return value_HR;
+    }
+
     /****************************************************************
      *                       PRESTACIONES                           *
      ****************************************************************/
@@ -242,6 +261,25 @@ public class AngelSensor {
         addServiceAccelerationEnergyMagnitude(dispositivo);
 
         return dispositivo;
+    }
+
+    public boolean registerServices(BleDevice dispositivo) {
+        boolean exito = false;
+        try {
+            dispositivo.registerServiceClass(SrvHeartRate.class);
+            dispositivo.registerServiceClass(SrvHealthThermometer.class);
+            dispositivo.registerServiceClass(SrvBattery.class);
+            dispositivo.registerServiceClass(SrvActivityMonitoring.class);
+            exito = true;
+        } catch (NoSuchMethodException e) {
+            throw new AssertionError();
+        } catch (IllegalAccessException e) {
+            throw new AssertionError();
+        } catch (InstantiationException e) {
+            throw new AssertionError();
+        }
+
+        return exito;
     }
 
 
