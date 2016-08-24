@@ -64,4 +64,9 @@ public class Global {
     public void setDispositivoBleDireccion(String dispositivoBle_direccion) {
         this.dispositivoBle_direccion = dispositivoBle_direccion;
     }
+
+    public void desconectarDispositivo() {
+        if(dispositivoBle != null)
+            dispositivoBle.disconnect();
+    }
 }

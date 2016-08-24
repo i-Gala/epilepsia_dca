@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
         smartband.setActivity(this);
         smartband.configurateStates(IDLE, SCANNING, CONNECTED);
+        Log.d("LLAMADA", "5");
         mostrarDispositivoEnlazado();
     }
 
@@ -78,6 +79,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setContentView(R.layout.activity_home);
+        ICON_CONNECTED = (ImageView) findViewById(R.id.bluetooth_connected);
+        if(global.getDispositivoBle() == null)
+            smartband.setSmartbandState(IDLE);
+        else
+            smartband.setSmartbandState(CONNECTED);
+        Log.d("LLAMADA", "4");
         mostrarDispositivoEnlazado();
     }
 
@@ -96,6 +103,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void scanOnClick(View v) {
         mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
         smartband.updateDeviceListAdapter(mDeviceListAdapter);
+        Log.d("scan_ESTADO", smartband.getSmartbandState()+"");
         switch (smartband.getSmartbandState()) {
             case IDLE:      startScan();    break;
             case SCANNING:  stopScan();     break;
@@ -141,6 +149,7 @@ public class HomeActivity extends AppCompatActivity {
 
         smartband.registrarServicios(global.getDispositivoBle());
         smartband.setSmartbandState(CONNECTED);
+        Log.d("LLAMADA", "3");
         mostrarDispositivoEnlazado();
         global.getDispositivoBle().connect(global.getDispositivoBleDireccion());
         scheduleUpdaters();
@@ -148,9 +157,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void desconectar() {
-        if(global.getDispositivoBle() != null || smartband.getSmartbandState() == CONNECTED) {
+        if(global.getDispositivoBle() != null && smartband.getSmartbandState() == CONNECTED) {
             global.getDispositivoBle().disconnect();
             smartband.setSmartbandState(IDLE);
+            Log.d("LLAMADA", "2");
             mostrarDispositivoEnlazado();
             mostrarBateria(-99);
             mostrarSenyal(0);
@@ -220,6 +230,7 @@ public class HomeActivity extends AppCompatActivity {
                 global.setDispositivoBleDireccion(bluetoothDevice.getAddress());
 
                 if(!global.getDispositivoBleDireccion().equals("")) {
+                    Log.d("LLAMADA", "1");
                     smartband.setSmartbandState(CONNECTED);
                     mostrarDispositivoEnlazado();
 
@@ -316,6 +327,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void mostrarDispositivoEnlazado() {
+        Log.d("mostrar_ESTADO", smartband.getSmartbandState()+"");
         switch (smartband.getSmartbandState()) {
             case IDLE:      ICON_CONNECTED.setBackgroundResource(R.drawable.desconectado_white);  break;
             case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;

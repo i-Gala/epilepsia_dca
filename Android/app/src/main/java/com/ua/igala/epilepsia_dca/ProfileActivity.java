@@ -50,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     protected void logoutOnClick(View v) {
+        global.desconectarDispositivo();
         global.setOnlineUser(false);
         global.setIDUserOnline(null);
         Intent intent = new Intent(this, MainActivity.class);
