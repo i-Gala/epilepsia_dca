@@ -4,12 +4,15 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.View;
+
+import com.angel.sdk.BleDevice;
 
 import junit.framework.Assert;
 
@@ -27,8 +30,17 @@ public class HomeActivity extends AppCompatActivity {
     private static final int SCANNING = 1;
     private static final int CONNECTED = 2;
 
+    //Definimos intervalos
+    private static final int RSSI_UPDATE_INTERVAL = 1000; // Milliseconds
+
     private Dialog mDeviceListDialog;
     private ListItemsAdapter mDeviceListAdapter;
+
+    private BleDevice dispositivosBluetooth;
+    private Handler handler;
+    private Runnable lectorPeriodico;
+
+    private String bluetooth_nombre;
 
 
     ImageView ICON_CONNECTED;
@@ -39,6 +51,17 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ICON_CONNECTED = (ImageView) findViewById(R.id.bluetooth_connected);
 
+        handler = new Handler(this.getMainLooper());
+        lectorPeriodico = new Runnable() {
+            @Override
+            public void run() {
+                dispositivosBluetooth.readRemoteRssi();
+                smartband.readAccelerationEnergyMagnitude();
+                mostrarCalorias();
+                handler.postDelayed(lectorPeriodico, RSSI_UPDATE_INTERVAL);
+            }
+        };
+
         smartband.setActivity(this);
         smartband.configurateStates(IDLE, SCANNING, CONNECTED);
         switch (smartband.getSmartbandState()) {
@@ -46,6 +69,11 @@ public class HomeActivity extends AppCompatActivity {
             case CONNECTED: ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);     break;
             default:        break;
         }
+    }
+
+    protected void onStart() {
+        super.onStart();
+        conectar();
     }
 
     protected void scanOnClick(View v) {
@@ -93,6 +121,34 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    private void conectar() {
+        if(dispositivosBluetooth != null)
+            dispositivosBluetooth.disconnect();
+        dispositivosBluetooth = new BleDevice(this, deviceLivecycleCallback, handler);
+
+        //incomplete
+    }
+
+    private final BleDevice.LifecycleCallback deviceLivecycleCallback = new BleDevice.LifecycleCallback() {
+        @Override
+        public void onBluetoothServicesDiscovered(BleDevice dispositivo) {
+            dispositivo = smartband.getServices(dispositivo);
+
+            //dibujar todos los servicios
+        }
+
+        @Override
+        public void onBluetoothDeviceDisconnected() {
+
+        }
+
+        public void onReadRemoteRssi(final int rssi) {
+
+        }
+
+
+    };
+
     private void showDeviceListDialog() {
         mDeviceListAdapter = smartband.getDeviceListAdapter();
         mDeviceListDialog = new Dialog(this);
@@ -108,9 +164,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
                 Assert.assertTrue(bluetoothDevice != null);
-                Intent intent = new Intent(parent.getContext(), HomeActivity.class);
-                intent.putExtra("ble_device_address", bluetoothDevice.getAddress());
-                startActivity(intent);
+                bluetooth_nombre = bluetoothDevice.getAddress();
                 ICON_CONNECTED.setBackgroundResource(R.drawable.conectado_white);
                 smartband.setSmartbandState(CONNECTED);
             }
@@ -123,5 +177,20 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         mDeviceListDialog.show();
+    }
+
+    private void mostrarCalorias() {
+        int accelerationEnergyMagnitude = smartband.getValueAccelerationEnergyMagnitude();
+        /*TextView textView = (TextView) findViewById(R.id.textview_acceleration);
+        Assert.assertNotNull(textView);
+        textView.setText(accelerationEnergyMagnitude + "g");
+
+        ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        effect.setDuration(ANIMATION_DURATION);
+        effect.setRepeatMode(Animation.REVERSE);
+        effect.setRepeatCount(1);
+
+        View imageView = findViewById(R.id.imageview_acceleration);
+        imageView.startAnimation(effect);*/
     }
 }

@@ -2,6 +2,8 @@ package com.ua.igala.epilepsia_dca;
 
 import android.app.Activity;
 
+import com.angel.sdk.BleDevice;
+
 /**
  * Created by Gala on 24/08/2016.
  */
@@ -19,6 +21,10 @@ public class Smartband {
         return instance;
     }
 
+    /****************************************************************
+     *                       ESTADO SMARTBAND                       *
+     ****************************************************************/
+
     public void configurateStates(int idle, int scanning, int connected) {
         AngelSensor.configurateStates(idle, scanning, connected);
     }
@@ -30,6 +36,10 @@ public class Smartband {
     public void setSmartbandState(int state) {
         AngelSensor.setState(state);
     }
+
+    /****************************************************************
+     *                            BLUETOOTH                         *
+     ****************************************************************/
 
     public void ScanCallback() {
         AngelSensor.ScanCallback();
@@ -43,6 +53,10 @@ public class Smartband {
         AngelSensor.stopScan();
     }
 
+    /****************************************************************
+     *                      LISTA DISPOSITIVOS                      *
+     ****************************************************************/
+
     public void updateDeviceListAdapter(ListItemsAdapter mDeviceListAdapter) {
         AngelSensor.updateDeviceListAdapter(mDeviceListAdapter);
     }
@@ -50,6 +64,10 @@ public class Smartband {
     public ListItemsAdapter getDeviceListAdapter() {
         return AngelSensor.getDeviceListAdapter();
     }
+
+    /****************************************************************
+     *                         ACTIVIDAD                            *
+     ****************************************************************/
 
     public Activity getActivity() {
         return AngelSensor.getActivity();
@@ -59,6 +77,22 @@ public class Smartband {
         AngelSensor.setActivity(actividad);
     }
 
+    /****************************************************************
+     *                ACCELERATION ENERGY MAGNITUDE                 *
+     *                          (CALORIAS)                          *
+     ****************************************************************/
+
+    public void readAccelerationEnergyMagnitude() {
+        AngelSensor.readAccelerationEnergyMagnitude();
+    }
+
+    public int getValueAccelerationEnergyMagnitude() {
+        return AngelSensor.getValueAccelerationEnergyMagnitude();
+    }
+
+    public BleDevice getServices(BleDevice dispositivo) {
+        return AngelSensor.getServices(dispositivo);
+    }
 
 
 }
