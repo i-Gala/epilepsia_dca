@@ -100,6 +100,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void logoutOnClick(View v) {
+        mostrarSenyal(0);
+        unscheduleUpdaters();
+        if(!dispositivoBle_direccion.equals(""))
+            desconectar();
+
         Global.getInstance().setOnlineUser(false);
         Global.getInstance().setIDUserOnline(null);
         Intent intent = new Intent(this, MainActivity.class);
@@ -150,9 +155,9 @@ public class HomeActivity extends AppCompatActivity {
             //dibujar todos los servicios
             Log.d("GETSERVICIOS", "MOSTRAR_BATERIA");
             mostrarBateria(smartband.getValueBattery());
-            /*mostrarHR();
+            mostrarHR();
             mostrarTemperatura();
-            mostrarStepCount();*/
+            /*mostrarStepCount();*/
         }
 
         @Override
@@ -164,6 +169,8 @@ public class HomeActivity extends AppCompatActivity {
 
         public void onReadRemoteRssi(final int rssi) {
             mostrarSenyal(rssi);
+            mostrarBateria(smartband.getValueBattery());
+            mostrarHR();
         }
 
 
@@ -243,10 +250,22 @@ public class HomeActivity extends AppCompatActivity {
 
     private void mostrarHR() {
         int value_hr = smartband.getValueHR();
+
+        Log.d("MOSTRAR_HR", value_hr + "");
+        TextView info =(TextView) findViewById(R.id.hr_medida);
+        info.setText(value_hr + "bpm");
+        Log.d("MOSTRAR_HR", "SALIR");
     }
 
     private void mostrarTemperatura() {
         double value_temperatura = smartband.getValueTemperature();
+
+        Log.d("MOSTRAR_TEMPERATURA", value_temperatura + "");
+        TextView info =(TextView) findViewById(R.id.temperatura_medida);
+        //info.setText(value_temperatura + "º");
+        info.setText(String.format("%.1f", value_temperatura)+"º");
+        Log.d("MOSTRAR_TEMPERATURA", "SALIR");
+
     }
 
     private void mostrarStepCount() {

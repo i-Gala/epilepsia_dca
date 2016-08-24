@@ -227,7 +227,7 @@ public class AngelSensor {
             };
 
     public double getValueTemperature() {
-        return getValueTemperature();
+        return value_temperature;
     }
 
     /****************************************************************
