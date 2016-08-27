@@ -161,29 +161,18 @@ public class AlarmActivity extends AppCompatActivity {
             } else {             // Si se ha activado el teléfono y no se ha agregado teléfono: ERROR!!!
                 exito = false;
                 state_phone = false;
-                try {
-                    Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
-                    database.getDb().beginTransaction();
-                    database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
-                            database.getUserPassword(cursor, true), false, state_bluetooth, state_phone,
-                            Integer.parseInt(max_HR.getText().toString()), Integer.parseInt(min_HR.getText().toString()), Integer.parseInt(tiempo_espera.getText().toString())));
-                    database.getDb().setTransactionSuccessful();
-                } finally {
-                    database.getDb().endTransaction();
-                }
-                cargarDatos();
             }
-        } else {
-            try {
-                Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
-                database.getDb().beginTransaction();
-                exito = database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
-                        database.getUserPassword(cursor, true), false, state_bluetooth, state_phone,
-                        Integer.parseInt(max_HR.getText().toString()), Integer.parseInt(min_HR.getText().toString()), Integer.parseInt(tiempo_espera.getText().toString())));
-                database.getDb().setTransactionSuccessful();
-            } finally {
-                database.getDb().endTransaction();
-            }
+        }
+
+        try {
+            Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+            database.getDb().beginTransaction();
+            exito = database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
+                    database.getUserPassword(cursor, true), false, state_bluetooth, state_phone,
+                    Integer.parseInt(max_HR.getText().toString()), Integer.parseInt(min_HR.getText().toString()), Integer.parseInt(tiempo_espera.getText().toString())));
+            database.getDb().setTransactionSuccessful();
+        } finally {
+            database.getDb().endTransaction();
         }
 
 
