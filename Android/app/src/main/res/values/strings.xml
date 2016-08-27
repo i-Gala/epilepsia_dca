@@ -48,4 +48,7 @@
     <string name="menu_registros">REGISTROS</string>
     <string name="menu_perfil">PERFIL</string>
     <string name="menu_alarmas">ALARMAS</string>
+
+    <string name="alerta_titulo">ALERTA</string>
+    <string name="alerta_info">La pulsera asociada está registrando un ataque de epilepsia.</string>
 </resources>

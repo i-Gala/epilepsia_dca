@@ -58,7 +58,8 @@
         android:layout_alignBottom="@+id/ico_home"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="false"
-        android:layout_marginStart="123dp" />
+        android:layout_marginStart="123dp"
+        android:onClick="lastStatsOnClick"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,7 +69,8 @@
         android:id="@+id/text_registro"
         android:layout_marginLeft="103dp"
         android:layout_alignTop="@+id/text_home"
-        android:textColor="@color/colorRedDisable"/>
+        android:textColor="@color/colorRedDisable"
+        android:onClick="lastStatsOnClick"/>
 
     <ImageView
         android:layout_width="29dp"

@@ -1,9 +1,15 @@
 package com.ua.igala.epilepsia_dca;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +39,9 @@ public class HomeActivity extends AppCompatActivity {
     private static final int SCANNING = 1;
     private static final int CONNECTED = 2;
 
+    private int NOTIF_REF = 1;
+    private NotificationManager manager;
+
     //Definimos intervalos
     private static final int RSSI_UPDATE_INTERVAL = 1000; // Milliseconds
 
@@ -41,8 +50,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private Handler handler;
     private Runnable lectorPeriodico;
-
-
 
     ImageView ICON_CONNECTED;
 
@@ -67,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         smartband.configurateStates(IDLE, SCANNING, CONNECTED);
         Log.d("LLAMADA", "5");
         mostrarDispositivoEnlazado();
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     protected void onStart() {
@@ -133,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void lastStatsOnClick(View v) {
-
+        crearNotification();
     }
 
     protected void alarmOnClick(View v) {
@@ -345,5 +353,36 @@ public class HomeActivity extends AppCompatActivity {
 
     private void unscheduleUpdaters() {
         handler.removeCallbacks(lectorPeriodico);
+    }
+
+    /****************************************************************
+     *                      NOTIFICACIONES                          *
+     ****************************************************************/
+
+    private Notification getNotification(Notification.Builder builder) {
+        long[] pattern = new long[]{1000,500,1000};
+        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        builder
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setTicker(R.string.alerta_titulo + " " + R.string.app_name)
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle(getString(R.string.alerta_titulo) + " " + getString(R.string.app_name))
+                .setContentText(getString(R.string.alerta_info))
+                .setLights(0xff00ff00, 1, 0)
+                .setVibrate(pattern)
+                .setOngoing(true)
+                .setSound(defaultSound);
+
+        return builder.build();
+    }
+
+    private void crearNotification() {
+        Notification notification = null;
+        Notification.Builder builder = new Notification.Builder(this);
+
+        notification = getNotification(builder);
+        notification.flags = notification.flags | Notification.FLAG_INSISTENT;
+        manager.notify(NOTIF_REF++, notification);
     }
 }
