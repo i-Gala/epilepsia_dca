@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.angel.sdk.BleDevice;
+import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
 
 import junit.framework.Assert;
 
@@ -31,6 +33,7 @@ import junit.framework.Assert;
  */
 
 public class HomeActivity extends AppCompatActivity {
+    private OperacionesBD database;
     Smartband smartband = Smartband.getInstance();
     Global global = Global.getInstance();
 
@@ -58,6 +61,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ICON_CONNECTED = (ImageView) findViewById(R.id.bluetooth_connected);
+
+        database = OperacionesBD.obtenerInstancia(getApplicationContext());
+        updateDetectarAtaque();
 
         handler = new Handler(this.getMainLooper());
         lectorPeriodico = new Runnable() {
@@ -383,5 +389,12 @@ public class HomeActivity extends AppCompatActivity {
         notification = getNotification(builder);
         notification.flags = notification.flags | Notification.FLAG_INSISTENT;
         manager.notify(NOTIF_REF++, notification);
+    }
+
+    private void updateDetectarAtaque() {
+        Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+        global.setMaxHR(Integer.parseInt(database.getUserMaxHR(cursor, false)));
+        global.setMinHR(Integer.parseInt(database.getUserMinHR(cursor, false)));
+        global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, true)));
     }
 }

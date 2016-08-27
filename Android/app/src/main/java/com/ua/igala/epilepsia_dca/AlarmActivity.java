@@ -175,6 +175,7 @@ public class AlarmActivity extends AppCompatActivity {
             database.getDb().endTransaction();
         }
 
+        updateDetectarAtaque();
 
         if (exito)
             Toast.makeText(getApplicationContext(), R.string.alarma_succesfully, Toast.LENGTH_LONG).show();
@@ -183,6 +184,13 @@ public class AlarmActivity extends AppCompatActivity {
             cargarDatos();
         }
 
+    }
+
+    private void updateDetectarAtaque() {
+        Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+        global.setMaxHR(Integer.parseInt(database.getUserMaxHR(cursor, false)));
+        global.setMinHR(Integer.parseInt(database.getUserMinHR(cursor, false)));
+        global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, true)));
     }
 
     private void cargarDatos() {

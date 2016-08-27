@@ -17,6 +17,13 @@ public class Global {
     private BleDevice dispositivoBle;
     private String dispositivoBle_direccion = "";
 
+    private boolean detectado_ataque;
+    private int max_hr;
+    private int min_hr;
+    private int tiempo_espera;
+    private int segundos_activo;
+    private int segundos_inactivo;
+
     private static Global instance;
 
     private Global() {
@@ -24,6 +31,12 @@ public class Global {
         user_id = null;
         dispositivoBle = null;
         dispositivoBle_direccion = "";
+        detectado_ataque = false;
+        max_hr = 60;
+        min_hr = 100;
+        tiempo_espera = 120;
+        segundos_activo = 0;
+        segundos_inactivo = 0;
     }
 
     public static synchronized Global getInstance(){
@@ -50,7 +63,7 @@ public class Global {
     }
 
     public BleDevice getDispositivoBle() {
-        return dispositivoBle;
+        return this.dispositivoBle;
     }
 
     public void setDispositivoBle(BleDevice dispositivoBle) {
@@ -58,7 +71,7 @@ public class Global {
     }
 
     public String getDispositivoBleDireccion() {
-        return dispositivoBle_direccion;
+        return this.dispositivoBle_direccion;
     }
 
     public void setDispositivoBleDireccion(String dispositivoBle_direccion) {
@@ -68,5 +81,53 @@ public class Global {
     public void desconectarDispositivo() {
         if(dispositivoBle != null)
             dispositivoBle.disconnect();
+    }
+
+    public boolean getDetectarAtaque() {
+        return this.detectado_ataque;
+    }
+
+    public void setDetectarAtaque(boolean detectado_ataque) {
+        this.detectado_ataque = detectado_ataque;
+    }
+
+    public int getMaxHR() {
+        return this.max_hr;
+    }
+
+    public void setMaxHR(int max_hr) {
+        this.max_hr = max_hr;
+    }
+
+    public int getMinHR() {
+        return this.min_hr;
+    }
+
+    public void setMinHR(int min_hr) {
+        this.min_hr = min_hr;
+    }
+
+    public int getTiempoEspera() {
+        return this.tiempo_espera;
+    }
+
+    public void setTiempoEspera(int tiempo_espera) {
+        this.tiempo_espera = tiempo_espera;
+    }
+
+    public int getSegundosACTIVO() {
+        return this.segundos_activo;
+    }
+
+    public void setSegundosACTIVO(int segundos_activo) {
+        this.segundos_activo = segundos_activo;
+    }
+
+    public int getSegundosINACTIVO() {
+        return this.segundos_inactivo;
+    }
+
+    public void setSegundosINACTIVO(int segundos_inactivo) {
+        this.segundos_inactivo = segundos_inactivo;
     }
 }
