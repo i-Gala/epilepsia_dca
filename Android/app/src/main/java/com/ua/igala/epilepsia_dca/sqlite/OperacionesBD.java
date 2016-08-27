@@ -87,7 +87,7 @@ public final class OperacionesBD {
             }
         }
         array = mArrayList.toArray(new String[0]);
-        //System.out.println(array[0]);
+
         if(close)
             c.close();
         return array[0];
@@ -108,7 +108,7 @@ public final class OperacionesBD {
             }
         }
         array = mArrayList.toArray(new String[0]);
-        //System.out.println(array[0]);
+
         if(close)
             c.close();
         return array[0];
@@ -129,7 +129,7 @@ public final class OperacionesBD {
             }
         }
         array = mArrayList.toArray(new String[0]);
-        //System.out.println(array[0]);
+
         if(close)
             c.close();
         return array[0];
@@ -149,7 +149,7 @@ public final class OperacionesBD {
             }
         }
         array = mArrayList.toArray(new String[0]);
-       // System.out.println(array[0]);
+
         if(close)
             c.close();
         return array[0];
@@ -169,7 +169,7 @@ public final class OperacionesBD {
             }
         }
         array = mArrayList.toArray(new String[0]);
-        // System.out.println(array[0]);
+
         if(close)
             c.close();
         return array[0];
@@ -189,7 +189,70 @@ public final class OperacionesBD {
             }
         }
         array = mArrayList.toArray(new String[0]);
-        // System.out.println(array[0]);
+
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserMaxHR(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.MAX_HR);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserMinHR(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.MIN_HR);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+
+        if(close)
+            c.close();
+        return array[0];
+    }
+
+    public String getUserTiempoEspera(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.TIEMPO_ESPERA);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+
         if(close)
             c.close();
         return array[0];
@@ -233,6 +296,9 @@ public final class OperacionesBD {
         values.put(Usuarios.FIRST_CONEXION, usuario.first_conexion);
         values.put(Usuarios.ALARMA_BLUETOOTH, usuario.alarma_bluetooth);
         values.put(Usuarios.ALARMA_TELEFONO, usuario.alarma_telefono);
+        values.put(Usuarios.MAX_HR, usuario.max_hr);
+        values.put(Usuarios.MIN_HR, usuario.min_hr);
+        values.put(Usuarios.TIEMPO_ESPERA, usuario.tiempo_espera);
 
         db.insertOrThrow(Tablas.USUARIOS, null, values);
         //db.close();
@@ -250,6 +316,9 @@ public final class OperacionesBD {
         values.put(Usuarios.FIRST_CONEXION, usuario.first_conexion);
         values.put(Usuarios.ALARMA_BLUETOOTH, usuario.alarma_bluetooth);
         values.put(Usuarios.ALARMA_TELEFONO, usuario.alarma_telefono);
+        values.put(Usuarios.MAX_HR, usuario.max_hr);
+        values.put(Usuarios.MIN_HR, usuario.min_hr);
+        values.put(Usuarios.TIEMPO_ESPERA, usuario.tiempo_espera);
 
         String condicion = String.format("%s=?", Usuarios.ID);
         String[] condicionArgs = {usuario.idUsuario};

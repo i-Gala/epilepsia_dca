@@ -193,4 +193,154 @@
         android:textColor="@color/colorPrimaryDark"
         android:layout_marginTop="80dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="1/2"
+        android:id="@+id/numeracion"
+        android:layout_alignBottom="@+id/send"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignStart="@+id/ico_registro"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="10dp" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/flecha"
+        android:background="@drawable/flecha"
+        android:layout_alignBottom="@+id/numeracion"
+        android:layout_toStartOf="@+id/switch_bluetooth"
+        android:layout_marginBottom="2dp"
+        android:onClick="loadScreen2OnClick" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/field_hr"
+        android:id="@+id/field_hr"
+        android:layout_below="@+id/logout"
+        android:layout_marginTop="105dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="45dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/field_segundos"
+        android:id="@+id/field_segundos"
+        android:layout_below="@+id/logout"
+        android:layout_marginTop="245dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="45dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/info_hr"
+        android:textColor="@color/colorHint"
+        android:id="@+id/info_hr"
+        android:layout_alignTop="@+id/field_hr"
+        android:layout_alignLeft="@+id/field_hr"
+        android:layout_marginTop="40dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/info_segundos"
+        android:textColor="@color/colorHint"
+        android:id="@+id/info_segundos"
+        android:layout_alignTop="@+id/field_segundos"
+        android:layout_alignLeft="@+id/field_segundos"
+        android:layout_marginTop="40dp"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/rango_maxhr"
+        android:layout_below="@+id/info_hr"
+        android:layout_toEndOf="@+id/ico_home"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="-"
+        android:id="@+id/guionhr"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignBottom="@+id/rango_maxhr"
+        android:layout_alignEnd="@+id/ico_registro"
+        android:textSize="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/rango_minhr"
+        android:layout_alignBottom="@+id/rango_maxhr"
+        android:layout_toEndOf="@+id/ico_registro"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="bpm"
+        android:id="@+id/bpm"
+        android:layout_alignBottom="@+id/rango_minhr"
+        android:layout_alignStart="@+id/text_perfil"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/tiempoesperahr"
+        android:layout_above="@+id/send"
+        android:layout_toEndOf="@+id/ico_home"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="sec."
+        android:id="@+id/textView4"
+        android:layout_above="@+id/send"
+        android:layout_alignStart="@+id/ico_registro"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/flecha2"
+        android:background="@drawable/flecha2"
+        android:layout_alignTop="@+id/numeracion"
+        android:layout_alignEnd="@+id/field_bluetooth"
+        android:visibility="invisible"
+        android:onClick="loadScreen1OnClick"/>
+
 </RelativeLayout>

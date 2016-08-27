@@ -52,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(field_password.equals(field_passwordConfirm)) {
             try {
                 database.getDb().beginTransaction();
-                String usuario = database.addUsuario(new Usuario(null, field_email, field_name, field_lastname, field_password, true, false, false));
+                String usuario = database.addUsuario(new Usuario(null, field_email, field_name, field_lastname, field_password, true, false, false, 60, 100, 120));
                 database.getDb().setTransactionSuccessful();
             } finally {
                 database.getDb().endTransaction();

@@ -141,7 +141,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void lastStatsOnClick(View v) {
-        crearNotification();
     }
 
     protected void alarmOnClick(View v) {
@@ -377,7 +376,7 @@ public class HomeActivity extends AppCompatActivity {
         return builder.build();
     }
 
-    private void crearNotification() {
+    private void crearNotificationBle() {
         Notification notification = null;
         Notification.Builder builder = new Notification.Builder(this);
 

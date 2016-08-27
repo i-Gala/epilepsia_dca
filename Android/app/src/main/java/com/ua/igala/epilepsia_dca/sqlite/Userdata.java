@@ -11,6 +11,9 @@ public class Userdata {
         String FIRST_CONEXION = "first_conexion";
         String ALARMA_BLUETOOTH = "alarma_bluetooth";
         String ALARMA_TELEFONO = "alarma_telefono";
+        String MAX_HR = "max_hr";
+        String MIN_HR = "min_hr";
+        String TIEMPO_ESPERA = "tiempo_espera";
     }
 
     interface ColumnasTelefonoEmergencias {

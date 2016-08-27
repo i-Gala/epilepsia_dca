@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,20 @@ public class AlarmActivity extends AppCompatActivity {
     private TextView warning_bluetooth;
     private TextView warning_phone;
 
+    private EditText max_HR;
+    private EditText min_HR;
+    private EditText tiempo_espera;
+    private TextView warning_hr;
+    private TextView warning_tiempo;
+
+    private TextView title_bluetooth;
+    private TextView title_phone;
+    private TextView title_hr;
+    private TextView title_tiempoEspera;
+
+    private ImageView flecha;
+    private ImageView flecha2;
+
     private boolean state_bluetooth = false;
     private boolean state_phone = false;
 
@@ -41,6 +56,21 @@ public class AlarmActivity extends AppCompatActivity {
         phone_number = (EditText) findViewById(R.id.phone_number);
         warning_bluetooth = (TextView) findViewById(R.id.text_bluetooth);
         warning_phone = (TextView) findViewById(R.id.text_telefono);
+
+        max_HR = (EditText) findViewById(R.id.rango_maxhr);
+        min_HR = (EditText) findViewById(R.id.rango_minhr);
+        tiempo_espera = (EditText) findViewById(R.id.tiempoesperahr);
+        warning_hr = (TextView) findViewById(R.id.info_hr);
+        warning_tiempo = (TextView) findViewById(R.id.info_segundos);
+
+        flecha = (ImageView) findViewById(R.id.flecha);
+        flecha2 = (ImageView) findViewById(R.id.flecha2);
+
+        title_bluetooth = (TextView) findViewById(R.id.field_bluetooth);
+        title_phone = (TextView) findViewById(R.id.field_telefono);
+        title_hr = (TextView) findViewById(R.id.field_hr);
+        title_tiempoEspera = (TextView) findViewById(R.id.field_segundos);
+
 
         switch_phone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {  // Activar/desactivar switch de ALERTA TELÉFONO
             @Override
@@ -68,8 +98,17 @@ public class AlarmActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
+            loadScreen1();
             cargarDatos();
         }
+    }
+
+    protected void loadScreen1OnClick(View v) {
+        loadScreen1();
+    }
+
+    protected void loadScreen2OnClick(View v) {
+        loadScreen2();
     }
 
     protected void logoutOnClick(View v) {
@@ -92,18 +131,6 @@ public class AlarmActivity extends AppCompatActivity {
 
     protected void sendOnClick(View v) {
         boolean exito = true;
-
-        try {
-            Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
-            database.getDb().beginTransaction();
-            exito = database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
-                    database.getUserPassword(cursor, true), false, state_bluetooth, state_phone));
-            database.getDb().setTransactionSuccessful();
-        } finally {
-            database.getDb().endTransaction();
-        }
-
-
 
         if(state_phone) {   // Si el teléfono está activo
             if(!phone_number.getText().toString().equals("")) {
@@ -138,12 +165,24 @@ public class AlarmActivity extends AppCompatActivity {
                     Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
                     database.getDb().beginTransaction();
                     database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
-                            database.getUserPassword(cursor, true), false, state_bluetooth, state_phone));
+                            database.getUserPassword(cursor, true), false, state_bluetooth, state_phone,
+                            Integer.parseInt(max_HR.getText().toString()), Integer.parseInt(min_HR.getText().toString()), Integer.parseInt(tiempo_espera.getText().toString())));
                     database.getDb().setTransactionSuccessful();
                 } finally {
                     database.getDb().endTransaction();
                 }
                 cargarDatos();
+            }
+        } else {
+            try {
+                Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+                database.getDb().beginTransaction();
+                exito = database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
+                        database.getUserPassword(cursor, true), false, state_bluetooth, state_phone,
+                        Integer.parseInt(max_HR.getText().toString()), Integer.parseInt(min_HR.getText().toString()), Integer.parseInt(tiempo_espera.getText().toString())));
+                database.getDb().setTransactionSuccessful();
+            } finally {
+                database.getDb().endTransaction();
             }
         }
 
@@ -160,7 +199,11 @@ public class AlarmActivity extends AppCompatActivity {
     private void cargarDatos() {
         Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
         state_bluetooth = (Integer.parseInt(database.getUserAlarmBluetooth(cursor, false)) != 0);
-        state_phone = (Integer.parseInt(database.getUserAlarmPhone(cursor, true)) != 0);
+        state_phone = (Integer.parseInt(database.getUserAlarmPhone(cursor, false)) != 0);
+
+        max_HR.setText(database.getUserMaxHR(cursor, false));
+        min_HR.setText(database.getUserMinHR(cursor, false));
+        tiempo_espera.setText(database.getUserTiempoEspera(cursor, true));
 
         switch_bluetooth.setChecked(state_bluetooth);
         checkBluetooth();
@@ -194,6 +237,50 @@ public class AlarmActivity extends AppCompatActivity {
         } else {
             phone_number.setText(phone+"");
         }
+    }
+
+    private void loadScreen1() {
+        switch_bluetooth.setVisibility(View.VISIBLE);
+        switch_phone.setVisibility(View.VISIBLE);
+        phone_number.setVisibility(View.VISIBLE);
+        warning_bluetooth.setVisibility(View.VISIBLE);
+        warning_phone.setVisibility(View.VISIBLE);
+
+        flecha.setVisibility(View.VISIBLE);
+        flecha2.setVisibility(View.INVISIBLE);
+
+        max_HR.setVisibility(View.INVISIBLE);
+        min_HR.setVisibility(View.INVISIBLE);
+        tiempo_espera.setVisibility(View.INVISIBLE);
+        warning_hr.setVisibility(View.INVISIBLE);
+        warning_tiempo.setVisibility(View.INVISIBLE);
+
+        title_bluetooth.setVisibility(View.VISIBLE);
+        title_phone.setVisibility(View.VISIBLE);
+        title_hr.setVisibility(View.INVISIBLE);
+        title_tiempoEspera.setVisibility(View.INVISIBLE);
+    }
+
+    private void loadScreen2() {
+        switch_bluetooth.setVisibility(View.INVISIBLE);
+        switch_phone.setVisibility(View.INVISIBLE);
+        phone_number.setVisibility(View.INVISIBLE);
+        warning_bluetooth.setVisibility(View.INVISIBLE);
+        warning_phone.setVisibility(View.INVISIBLE);
+
+        flecha.setVisibility(View.INVISIBLE);
+        flecha2.setVisibility(View.VISIBLE);
+
+        max_HR.setVisibility(View.VISIBLE);
+        min_HR.setVisibility(View.VISIBLE);
+        tiempo_espera.setVisibility(View.VISIBLE);
+        warning_hr.setVisibility(View.VISIBLE);
+        warning_tiempo.setVisibility(View.VISIBLE);
+
+        title_bluetooth.setVisibility(View.INVISIBLE);
+        title_phone.setVisibility(View.INVISIBLE);
+        title_hr.setVisibility(View.VISIBLE);
+        title_tiempoEspera.setVisibility(View.VISIBLE);
     }
 
 }

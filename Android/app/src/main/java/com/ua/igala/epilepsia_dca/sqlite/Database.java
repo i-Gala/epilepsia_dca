@@ -69,12 +69,14 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +
                         "%s TEXT UNIQUE NOT NULL, %s TEXT NOT NULL, " +
                         "%s TEXT NOT NULL, %s TEXT NOT NULL, %s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL," +
                         "%s INTEGER NOT NULL, %s INTEGER NOT NULL)",
                 Tablas.USUARIOS, Usuarios.ID,
                 Usuarios.EMAIL,
                 Usuarios.NOMBRE, Usuarios.APELLIDOS,
                 Usuarios.PASSWORD, Usuarios.FIRST_CONEXION,
-                Usuarios.ALARMA_BLUETOOTH, Usuarios.ALARMA_TELEFONO));
+                Usuarios.ALARMA_BLUETOOTH, Usuarios.ALARMA_TELEFONO,
+                Usuarios.MAX_HR, Usuarios.MIN_HR, Usuarios.TIEMPO_ESPERA));
 
 
         db.execSQL(String.format("CREATE TABLE %s (%s TEXT PRIMARY KEY," +

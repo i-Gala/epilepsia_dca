@@ -76,12 +76,15 @@ public class ProfileActivity extends AppCompatActivity {
         String field_password = et_password.getText().toString();
 
         boolean field_alarmB = (Integer.parseInt(database.getUserAlarmBluetooth(cursor, false)) != 0);
-        boolean field_alarmP = (Integer.parseInt(database.getUserAlarmPhone(cursor, true)) != 0);
+        boolean field_alarmP = (Integer.parseInt(database.getUserAlarmPhone(cursor, false)) != 0);
+        int field_maxhr = (Integer.parseInt(database.getUserMaxHR(cursor, false)));
+        int field_minhr = (Integer.parseInt(database.getUserMinHR(cursor, false)));
+        int field_tiempoEspera = (Integer.parseInt(database.getUserTiempoEspera(cursor, true)));
         boolean usuario_update = true;
 
         try {
             database.getDb().beginTransaction();
-            usuario_update = database.updateUsuario(new Usuario(global.getIDUserOnline(), field_email, field_name, field_lastname, field_password, false, field_alarmB, field_alarmP));
+            usuario_update = database.updateUsuario(new Usuario(global.getIDUserOnline(), field_email, field_name, field_lastname, field_password, false, field_alarmB, field_alarmP, field_maxhr, field_minhr, field_tiempoEspera));
             database.getDb().setTransactionSuccessful();
         } finally {
             database.getDb().endTransaction();
