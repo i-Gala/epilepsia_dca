@@ -18,6 +18,8 @@ public class Global {
     private String dispositivoBle_direccion = "";
 
     private boolean detectado_ataque;
+    private boolean alerta_bluetooth;
+    private boolean alerta_sms;
     private int max_hr;
     private int min_hr;
     private int tiempo_espera;
@@ -35,8 +37,8 @@ public class Global {
         max_hr = 60;
         min_hr = 100;
         tiempo_espera = 120;
-        segundos_activo = 0;
-        segundos_inactivo = 0;
+        alerta_bluetooth = false;
+        alerta_sms = false;
     }
 
     public static synchronized Global getInstance(){
@@ -115,19 +117,19 @@ public class Global {
         this.tiempo_espera = segundos * 1000;   // Almacenamos milisegundos
     }
 
-    public int getSegundosACTIVO() {
-        return this.segundos_activo;
+    public boolean getAlertaBle() {
+        return this.alerta_bluetooth;
     }
 
-    public void setSegundosACTIVO(int segundos_activo) {
-        this.segundos_activo = segundos_activo;
+    public void setAlertaBle(boolean alerta_bluetooth) {
+        this.alerta_bluetooth = alerta_bluetooth;
     }
 
-    public int getSegundosINACTIVO() {
-        return this.segundos_inactivo;
+    public boolean getAlertaSMS() {
+        return this.alerta_sms;
     }
 
-    public void setSegundosINACTIVO(int segundos_inactivo) {
-        this.segundos_inactivo = segundos_inactivo;
+    public void setAlertaSMS(boolean alerta_sms) {
+        this.alerta_sms = alerta_sms;
     }
 }

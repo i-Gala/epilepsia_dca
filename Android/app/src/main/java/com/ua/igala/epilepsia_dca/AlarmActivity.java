@@ -190,7 +190,9 @@ public class AlarmActivity extends AppCompatActivity {
         Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
         global.setMaxHR(Integer.parseInt(database.getUserMaxHR(cursor, false)));
         global.setMinHR(Integer.parseInt(database.getUserMinHR(cursor, false)));
-        global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, true)));
+        global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, false)));
+        global.setAlertaBle(Integer.parseInt(database.getUserAlarmBluetooth(cursor, false)) != 0);
+        global.setAlertaSMS(Integer.parseInt(database.getUserAlarmPhone(cursor, true)) != 0);
     }
 
     private void cargarDatos() {

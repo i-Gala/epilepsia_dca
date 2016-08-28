@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.telephony.SmsManager;
 
 import com.angel.sdk.BleDevice;
 import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
@@ -371,7 +373,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Notification getNotification(Notification.Builder builder) {
         long[] pattern = new long[]{1000,500,1000};
-        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
         builder
                 .setSmallIcon(R.drawable.ic_launcher)
@@ -400,7 +402,9 @@ public class HomeActivity extends AppCompatActivity {
         Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
         global.setMaxHR(Integer.parseInt(database.getUserMaxHR(cursor, false)));
         global.setMinHR(Integer.parseInt(database.getUserMinHR(cursor, false)));
-        global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, true)));
+        global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, false)));
+        global.setAlertaBle(Integer.parseInt(database.getUserAlarmBluetooth(cursor, false)) != 0);
+        global.setAlertaSMS(Integer.parseInt(database.getUserAlarmPhone(cursor, true)) != 0);
     }
 
     /****************************************************************
@@ -430,7 +434,11 @@ public class HomeActivity extends AppCompatActivity {
                             temporizador_falsa_alarma.cancel();
                             falsa_alarma = false;
                         }
-                        crearNotificationBle();
+
+                        if(global.getAlertaSMS())
+                            enviarAlertaSMS();
+                        if(global.getAlertaBle())
+                            crearNotificationBle();
                     }
                 }.start();
             } else {
@@ -459,5 +467,25 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    /****************************************************************
+     *                              SMS                             *
+     ****************************************************************/
+
+    private void enviarAlertaSMS() {
+        SmsManager sms = SmsManager.getDefault();
+        String texto = "";
+
+        Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+        String nombre = database.getUserName(cursor, false).toString() + " " + database.getUserLastname(cursor, true).toString();
+
+        cursor = database.getTelefonoEmergenciasByUser(global.getIDUserOnline());
+        String phone = database.getPhone(cursor).toString();
+
+        texto = getString(R.string.sms_alerta) + " " + getString(R.string.app_name) + "! " + nombre + " " + getString(R.string.sms_info);
+
+        sms.sendTextMessage( phone , null, texto , null, null);
+
     }
 }

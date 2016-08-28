@@ -57,4 +57,7 @@
 
     <string name="alerta_titulo">ALERTA</string>
     <string name="alerta_info">La pulsera asociada está registrando un ataque de epilepsia.</string>
+
+    <string name="sms_alerta">¡ALERTA</string>
+    <string name="sms_info">ESTÁ SUFRIENDO UN ATAQUE DE EPILEPSIA.</string>
 </resources>
