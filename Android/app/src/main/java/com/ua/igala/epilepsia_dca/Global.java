@@ -111,8 +111,8 @@ public class Global {
         return this.tiempo_espera;
     }
 
-    public void setTiempoEspera(int tiempo_espera) {
-        this.tiempo_espera = tiempo_espera;
+    public void setTiempoEspera(int segundos) {
+        this.tiempo_espera = segundos * 1000;   // Almacenamos milisegundos
     }
 
     public int getSegundosACTIVO() {
