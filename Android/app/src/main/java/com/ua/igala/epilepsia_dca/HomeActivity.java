@@ -407,6 +407,11 @@ public class HomeActivity extends AppCompatActivity {
         long[] pattern = new long[]{1000,500,1000};
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setAction(Long.toString(System.currentTimeMillis()));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         builder
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setTicker(R.string.alerta_titulo + " " + R.string.app_name)
@@ -416,7 +421,9 @@ public class HomeActivity extends AppCompatActivity {
                 .setLights(0xff00ff00, 1, 0)
                 .setVibrate(pattern)
                 .setOngoing(true)
-                .setSound(defaultSound);
+                .setSound(defaultSound)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
 
         return builder.build();
     }
@@ -427,6 +434,7 @@ public class HomeActivity extends AppCompatActivity {
 
         notification = getNotification(builder);
         notification.flags = notification.flags | Notification.FLAG_INSISTENT;
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
         manager.notify(NOTIF_REF++, notification);
     }
 
