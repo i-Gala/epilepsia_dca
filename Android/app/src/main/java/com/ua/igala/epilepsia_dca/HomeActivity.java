@@ -3,6 +3,7 @@ package com.ua.igala.epilepsia_dca;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import android.telephony.SmsManager;
 
 import com.angel.sdk.BleDevice;
+import com.ua.igala.epilepsia_dca.model.Usuario;
 import com.ua.igala.epilepsia_dca.sqlite.OperacionesBD;
 
 import junit.framework.Assert;
@@ -93,6 +96,31 @@ public class HomeActivity extends AppCompatActivity {
         ataque_detectado = false;
         falsa_alarma = false;
         falsa_alarma_MS = 0;
+
+        if(getFirstTime()) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setMessage(R.string.fc_text);
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(R.string.fc_ahora, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    desactivarFirstTime();
+                    irAlarmActivity();
+                    dialog.cancel();
+                }
+            });
+            dialog.setNegativeButton(R.string.fc_tarde, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    desactivarFirstTime();
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        }
     }
 
     protected void onStart() {
@@ -160,6 +188,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void alarmOnClick(View v) {
+        irAlarmActivity();
+    }
+
+    private void irAlarmActivity() {
         Intent intent = new Intent(this, AlarmActivity.class);
         startActivity(intent);
     }
@@ -398,6 +430,10 @@ public class HomeActivity extends AppCompatActivity {
         manager.notify(NOTIF_REF++, notification);
     }
 
+    /****************************************************************
+     *                              BD                              *
+     ****************************************************************/
+
     private void updateDetectarAtaque() {
         Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
         global.setMaxHR(Integer.parseInt(database.getUserMaxHR(cursor, false)));
@@ -405,6 +441,19 @@ public class HomeActivity extends AppCompatActivity {
         global.setTiempoEspera(Integer.parseInt(database.getUserTiempoEspera(cursor, false)));
         global.setAlertaBle(Integer.parseInt(database.getUserAlarmBluetooth(cursor, false)) != 0);
         global.setAlertaSMS(Integer.parseInt(database.getUserAlarmPhone(cursor, true)) != 0);
+    }
+
+    private boolean getFirstTime() {
+        boolean first_time = false;
+        Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+        first_time = (Integer.parseInt(database.getUserFirstTime(cursor, true)) != 0);
+        return first_time;
+    }
+
+    private void desactivarFirstTime() {
+        Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+        database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false).toString(), database.getUserName(cursor, false).toString(),
+                database.getUserLastname(cursor, false).toString(), database.getUserPassword(cursor, true).toString(), false, false, false, 60, 100, 120));
     }
 
     /****************************************************************

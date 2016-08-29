@@ -1,7 +1,9 @@
 package com.ua.igala.epilepsia_dca;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +40,8 @@ public class AlarmActivity extends AppCompatActivity {
     private TextView title_hr;
     private TextView title_tiempoEspera;
 
+    private TextView numeracion;
+
     private ImageView flecha;
     private ImageView flecha2;
 
@@ -70,6 +74,8 @@ public class AlarmActivity extends AppCompatActivity {
         title_phone = (TextView) findViewById(R.id.field_telefono);
         title_hr = (TextView) findViewById(R.id.field_hr);
         title_tiempoEspera = (TextView) findViewById(R.id.field_segundos);
+
+        numeracion = (TextView) findViewById(R.id.numeracion);
 
 
         switch_phone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {  // Activar/desactivar switch de ALERTA TELÉFONO
@@ -112,25 +118,96 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     protected void logoutOnClick(View v) {
-        global.desconectarDispositivo();
-        global.setOnlineUser(false);
-        global.setIDUserOnline(null);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if(!global.getAlertaBle() && !global.getAlertaSMS()) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setMessage(R.string.alarm_disable);
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    goToScreen(0);
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        } else
+            goToScreen(0);
     }
 
     protected void homeOnClick(View v) {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+        if(!global.getAlertaBle() && !global.getAlertaSMS()) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setMessage(R.string.alarm_disable);
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    goToScreen(1);
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        } else
+            goToScreen(1);
     }
 
     protected void profileOnClick(View v) {
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
+        if(!global.getAlertaBle() && !global.getAlertaSMS()) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setMessage(R.string.alarm_disable);
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    goToScreen(2);
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        } else
+            goToScreen(2);
     }
 
     protected void sendOnClick(View v) {
         boolean exito = true;
+        boolean fail_range = false;
+
+        int max_hr = Integer.parseInt(max_HR.getText().toString());
+        int min_hr = Integer.parseInt(min_HR.getText().toString());
+
+        if(max_hr < min_hr) {
+            Cursor cursor = database.getUsuarioByID(global.getIDUserOnline());
+            fail_range = true;
+            max_hr = Integer.parseInt(database.getUserMaxHR(cursor, false));
+            min_hr = Integer.parseInt(database.getUserMinHR(cursor, true));
+        }
 
         if(state_phone) {   // Si el teléfono está activo
             if(!phone_number.getText().toString().equals("")) {
@@ -169,13 +246,15 @@ public class AlarmActivity extends AppCompatActivity {
             database.getDb().beginTransaction();
             exito = database.updateUsuario(new Usuario(global.getIDUserOnline(), database.getUserMail(cursor, false), database.getUserName(cursor, false), database.getUserLastname(cursor, false),
                     database.getUserPassword(cursor, true), false, state_bluetooth, state_phone,
-                    Integer.parseInt(max_HR.getText().toString()), Integer.parseInt(min_HR.getText().toString()), Integer.parseInt(tiempo_espera.getText().toString())));
+                    max_hr, min_hr, Integer.parseInt(tiempo_espera.getText().toString())));
             database.getDb().setTransactionSuccessful();
         } finally {
             database.getDb().endTransaction();
         }
 
         updateDetectarAtaque();
+
+        if(fail_range) exito = false;
 
         if (exito)
             Toast.makeText(getApplicationContext(), R.string.alarma_succesfully, Toast.LENGTH_LONG).show();
@@ -184,6 +263,27 @@ public class AlarmActivity extends AppCompatActivity {
             cargarDatos();
         }
 
+    }
+
+    private void goToScreen(int id) {
+        Intent intent;
+        switch (id) {
+            case 0: // LOGOUT
+                global.desconectarDispositivo();
+                global.setOnlineUser(false);
+                global.setIDUserOnline(null);
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case 1: // HOME
+                intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                break;
+            case 2: // PROFILE
+                intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     private void updateDetectarAtaque() {
@@ -258,6 +358,8 @@ public class AlarmActivity extends AppCompatActivity {
         title_phone.setVisibility(View.VISIBLE);
         title_hr.setVisibility(View.INVISIBLE);
         title_tiempoEspera.setVisibility(View.INVISIBLE);
+
+        numeracion.setText("1/2");
     }
 
     private void loadScreen2() {
@@ -280,6 +382,8 @@ public class AlarmActivity extends AppCompatActivity {
         title_phone.setVisibility(View.INVISIBLE);
         title_hr.setVisibility(View.VISIBLE);
         title_tiempoEspera.setVisibility(View.VISIBLE);
+
+        numeracion.setText("2/2");
     }
 
 }

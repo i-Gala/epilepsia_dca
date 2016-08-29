@@ -60,4 +60,12 @@
 
     <string name="sms_alerta">¡ALERTA</string>
     <string name="sms_info">ESTÁ SUFRIENDO UN ATAQUE DE EPILEPSIA.</string>
+
+    <string name="fc_text">¡ATENCIÓN! Las alarmas no están configuradas</string>
+    <string name="fc_ahora">CONFIGURAR AHORA</string>
+    <string name="fc_tarde">MÁS TARDE</string>
+
+    <string name="alarm_disable">¡ATENCIÓN! Todas las alarmas están deshabilitadas, ¿desea cambiarlo?</string>
+    <string name="si">SÍ</string>
+    <string name="no">NO</string>
 </resources>

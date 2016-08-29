@@ -195,6 +195,26 @@ public final class OperacionesBD {
         return array[0];
     }
 
+    public String getUserFirstTime(Cursor c, boolean close) {
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        String[] array;
+        if(c.getCount() < 1) {
+            c.close();
+            return "CODE_USER_ERROR";
+        } else if( c.getCount() >= 1 ) {
+            int id = c.getColumnIndex(Usuarios.FIRST_CONEXION);
+
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                mArrayList.add(c.getString(id));
+            }
+        }
+        array = mArrayList.toArray(new String[0]);
+
+        if(close)
+            c.close();
+        return array[0];
+    }
+
     public String getUserMaxHR(Cursor c, boolean close) {
         ArrayList<String> mArrayList = new ArrayList<String>();
         String[] array;
