@@ -35,7 +35,6 @@
         android:text="@string/menu_home"
         android:id="@+id/text_home"
         android:layout_marginTop="525dp"
-        android:textStyle="bold"
         android:layout_marginLeft="35dp"
         android:textColor="@color/colorRedDisable"
         android:onClick="homeOnClick" />
@@ -101,6 +100,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/menu_alarmas"
         android:id="@+id/text_alarmas"
+        android:textStyle="bold"
         android:layout_marginLeft="293dp"
         android:layout_alignTop="@+id/text_home"/>
 

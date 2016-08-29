@@ -34,7 +34,6 @@
         android:text="@string/menu_home"
         android:id="@+id/text_home"
         android:layout_marginTop="525dp"
-        android:textStyle="bold"
         android:layout_marginLeft="35dp"
         android:textColor="@color/colorRedDisable"
         android:onClick="homeOnClick" />
@@ -77,6 +76,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/menu_perfil"
         android:id="@+id/text_perfil"
+        android:textStyle="bold"
         android:layout_marginLeft="213dp"
         android:layout_alignTop="@+id/text_home"/>
 
