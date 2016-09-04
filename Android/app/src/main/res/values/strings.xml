@@ -12,6 +12,7 @@
     <string name="medida_senyal_name">SEÑAL</string>
     <string name="medida_bpm_name">RITMO CARDIACO</string>
     <string name="medida_temperatura_name">TEMPERATURA</string>
+    <string name="medida_o2_name">O2 EN SANGRE</string>
 
     <string name="login">Iniciar sesión</string>
     <string name="signUp">Registrarse</string>

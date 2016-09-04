@@ -204,9 +204,9 @@
         android:layout_height="65dp"
         android:id="@+id/hr_background"
         android:background="@drawable/inc_option2"
+        android:layout_marginTop="86dp"
         android:layout_below="@+id/bluetooth_connected"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="116dp" />
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="40dp"
@@ -279,6 +279,48 @@
         android:text="0º"
         android:id="@+id/temperatura_medida"
         android:layout_alignTop="@+id/temperatura_name"
+        android:layout_alignEnd="@+id/logout"
+        android:textColor="@android:color/background_light" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:id="@+id/o2_background"
+        android:background="@drawable/inc_option5"
+        android:layout_below="@+id/temperatura_icon"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <ImageView
+        android:layout_width="33dp"
+        android:layout_height="40dp"
+        android:id="@+id/o2_icon"
+        android:background="@drawable/icon_o2_white"
+        android:layout_alignTop="@+id/o2_background"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/medida_o2_name"
+        android:textStyle="bold"
+        android:id="@+id/o2_name"
+        android:layout_marginLeft="0dp"
+        android:layout_alignTop="@+id/o2_background"
+        android:layout_alignStart="@+id/text_registro"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="-%"
+        android:id="@+id/o2_medida"
+        android:layout_alignTop="@+id/o2_name"
         android:layout_alignEnd="@+id/logout"
         android:textColor="@android:color/background_light" />
 
