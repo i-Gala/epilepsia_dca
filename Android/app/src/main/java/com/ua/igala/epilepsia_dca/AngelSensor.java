@@ -66,7 +66,7 @@ public class AngelSensor {
     BleScanner.ScanCallback mScanCallback = new BleScanner.ScanCallback() {
         @Override
         public void onBluetoothDeviceFound(BluetoothDevice device) {
-            // Agrega los dispositivos de Bluetooth encontrados a la lista de dispositivas.
+            // Agrega los dispositivos de Bluetooth encontrados a la lista de dispositivos.
             // Después el usuario podrá hacer click en el dispositivo para conectarlo.
             if (device.getName() != null && device.getName().startsWith("Angel")) {
                 ListItem newDevice = new ListItem(device.getName(), device.getAddress(), device);

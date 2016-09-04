@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#333</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorHint">#757575</color>
+    <color name="whiteColor">#FFF</color>
 
     <color name="list_item_text_color">#72a3b4</color>
     <color name="list_item_key_color">#707070</color>

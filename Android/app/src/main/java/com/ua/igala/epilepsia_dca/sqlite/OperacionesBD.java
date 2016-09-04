@@ -425,27 +425,7 @@ public final class OperacionesBD {
         values.put(TelefonosEmergencias.TELEFONO, telefono_emergencias.telefono);
         values.put(TelefonosEmergencias.ID_USUARIO, telefono_emergencias.idUsuario);
 
-        /*Log.d("-----------------","-----------------");
-        Log.d("ValuesID", idTelefonoEmergencia);
-        Log.d("ValuesTLF", telefono_emergencias.telefono+"");
-        Log.d("ValuesUSER", telefono_emergencias.idUsuario);*/
-
         db.insertOrThrow(Tablas.TELEFONO_EMERGENCIA, null, values);
-        /*SQLiteDatabase db3 = database.getReadableDatabase();
-
-        String sql3 = String.format("SELECT * FROM %s",
-                Tablas.USUARIOS);
-
-        Log.d("ValuesUSU", "ValuesUSU");
-        DatabaseUtils.dumpCursor(db3.rawQuery(sql3, null));
-
-        String sql2 = String.format("SELECT * FROM %s",
-                Tablas.TELEFONO_EMERGENCIA);
-
-        Log.d("ValuesTLF", "ValuesTLF");
-        DatabaseUtils.dumpCursor(db.rawQuery(sql2, null));
-
-        Log.d("-----------------","-----------------");*/
 
         return idTelefonoEmergencia;
     }

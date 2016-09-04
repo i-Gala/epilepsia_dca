@@ -39,6 +39,11 @@
 
     <string name="signup_succesfully">Registrado con éxito</string>
     <string name="signup_password_error">Las contraseñas no coinciden</string>
+    <string name="signup_email_error">Correo electrónico no válido</string>
+    <string name="signup_passlength_error">Contraseña debe tener mínimo 6 caracteres</string>
+    <string name="signup_name_error">Nombre debe tener mínimo 3 caracteres</string>
+    <string name="signup_lastname_error">Apellidos debe tener mínimo 3 caracteres</string>
+    <string name="signup_empty_error">Debes rellenar todos los campos</string>
 
     <string name="login_signup">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="login_succesfully">Inició sesión con éxito</string>
