@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
             global.setOnlineUser(true);
             global.setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email), true));
+            global.guardarSharedPreferences(getApplicationContext());
 
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);

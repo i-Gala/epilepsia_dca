@@ -1,8 +1,8 @@
 package com.ua.igala.epilepsia_dca;
 
 
-import android.app.Application;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.angel.sdk.BleDevice;
 
@@ -131,5 +131,31 @@ public class Global {
 
     public void setAlertaSMS(boolean alerta_sms) {
         this.alerta_sms = alerta_sms;
+    }
+
+    public void guardarSharedPreferences(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("ADcaEpilepsiaConfig", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("ID_USER", user_id);
+        editor.putBoolean("CONEXION", online);
+        editor.commit();
+    }
+
+    public void cargarSharedPreferences(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("ADcaEpilepsiaConfig", context.MODE_PRIVATE);
+        user_id = preferences.getString("ID_USER", null);
+        online = preferences.getBoolean("CONEXION", false);
+    }
+
+    public void deleteSharedPreferences(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("ADcaEpilepsiaConfig", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.remove("ID_USER");
+        editor.remove("CONEXION");
+        editor.clear();
+        editor.commit();
+
+
     }
 }

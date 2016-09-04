@@ -175,6 +175,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Global.getInstance().setOnlineUser(false);
         Global.getInstance().setIDUserOnline(null);
+        Global.getInstance().deleteSharedPreferences(getApplicationContext());
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

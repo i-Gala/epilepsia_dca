@@ -118,29 +118,12 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     protected void logoutOnClick(View v) {
-        if(!global.getAlertaBle() && !global.getAlertaSMS()) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-
-            dialog.setMessage(R.string.alarm_disable);
-            dialog.setCancelable(false);
-            dialog.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    goToScreen(0);
-                    dialog.cancel();
-                }
-            });
-            dialog.show();
-        } else
-            goToScreen(0);
+        global.desconectarDispositivo();
+        global.setOnlineUser(false);
+        global.deleteSharedPreferences(getApplicationContext());
+        global.setIDUserOnline(null);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     protected void homeOnClick(View v) {

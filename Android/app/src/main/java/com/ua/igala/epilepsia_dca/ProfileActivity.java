@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         global.desconectarDispositivo();
         global.setOnlineUser(false);
         global.setIDUserOnline(null);
+        global.deleteSharedPreferences(getApplicationContext());
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

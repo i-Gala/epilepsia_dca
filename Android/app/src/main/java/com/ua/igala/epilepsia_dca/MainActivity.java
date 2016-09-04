@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        global.cargarSharedPreferences(getApplicationContext());
         if(global.getOnlineUser() == true) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
