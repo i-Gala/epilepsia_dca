@@ -54,8 +54,8 @@ public class HomeActivity extends AppCompatActivity {
     //Definimos intervalos
     private static final int RSSI_UPDATE_INTERVAL = 1000; // Milliseconds
 
-    private Dialog mDeviceListDialog;
-    private ListItemsAdapter mDeviceListAdapter;
+    private Dialog mListadoDispositivos;
+    private ListItemsAdapter mAdaptadorListadoDispositivos;
 
     private Handler handler;
     private Runnable lectorPeriodico;
@@ -154,8 +154,8 @@ public class HomeActivity extends AppCompatActivity {
      ****************************************************************/
 
     protected void scanOnClick(View v) {
-        mDeviceListAdapter = new ListItemsAdapter(this, R.layout.list_item);
-        smartband.updateDeviceListAdapter(mDeviceListAdapter);
+        mAdaptadorListadoDispositivos = new ListItemsAdapter(this, R.layout.list_item);
+        smartband.updateDeviceListAdapter(mAdaptadorListadoDispositivos);
         switch (smartband.getSmartbandState()) {
             case IDLE:      startScan();    break;
             case SCANNING:  stopScan();     break;
@@ -259,7 +259,7 @@ public class HomeActivity extends AppCompatActivity {
         smartband.buscarDispositivoSmartband();
         smartband.setSmartbandState(SCANNING);
         smartband.startScan();
-        showDeviceListDialog();
+        mostrarListadoDispositivos();
     }
 
     private void stopScan() {
@@ -267,20 +267,20 @@ public class HomeActivity extends AppCompatActivity {
         smartband.setSmartbandState(IDLE);
     }
 
-    private void showDeviceListDialog() {
-        mDeviceListAdapter = smartband.getDeviceListAdapter();
-        mDeviceListDialog = new Dialog(this);
-        mDeviceListDialog.setTitle(R.string.bluetooth_devicelist);
-        mDeviceListDialog.setContentView(R.layout.device_list);
-        ListView lv = (ListView) mDeviceListDialog.findViewById(R.id.lv);
-        lv.setAdapter(mDeviceListAdapter);
+    private void mostrarListadoDispositivos() {
+        mAdaptadorListadoDispositivos = smartband.getDeviceListAdapter();
+        mListadoDispositivos = new Dialog(this);
+        mListadoDispositivos.setTitle(R.string.bluetooth_devicelist);
+        mListadoDispositivos.setContentView(R.layout.device_list);
+        ListView lv = (ListView) mListadoDispositivos.findViewById(R.id.lv);
+        lv.setAdapter(mAdaptadorListadoDispositivos);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
                 smartband.stopScan();
-                mDeviceListDialog.dismiss();
+                mListadoDispositivos.dismiss();
 
-                BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
+                BluetoothDevice bluetoothDevice = mAdaptadorListadoDispositivos.getItem(position).getBluetoothDevice();
                 Assert.assertTrue(bluetoothDevice != null);
                 global.setDispositivoBleDireccion(bluetoothDevice.getAddress());
 
@@ -293,13 +293,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        mDeviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        mListadoDispositivos.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 smartband.stopScan();
             }
         });
-        mDeviceListDialog.show();
+        mListadoDispositivos.show();
     }
 
     /****************************************************************

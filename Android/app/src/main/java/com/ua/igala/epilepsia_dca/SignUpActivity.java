@@ -63,7 +63,13 @@ public class SignUpActivity extends AppCompatActivity {
                                     database.getDb().endTransaction();
 
                                     Toast.makeText(getApplicationContext(), R.string.signup_succesfully, Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(this, MainActivity.class);
+                                    //Intent intent = new Intent(this, MainActivity.class);
+                                    //startActivity(intent);
+                                    global.setOnlineUser(true);
+                                    global.setIDUserOnline(database.getUserID(database.getUsuarioByEmail(field_email), true));
+                                    global.guardarSharedPreferences(getApplicationContext());
+
+                                    Intent intent = new Intent(this, HomeActivity.class);
                                     startActivity(intent);
                                 }
                             } else {

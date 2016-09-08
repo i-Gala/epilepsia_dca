@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -42,8 +43,8 @@ public class AlarmActivity extends AppCompatActivity {
 
     private TextView numeracion;
 
-    private ImageView flecha;
-    private ImageView flecha2;
+    private ImageButton flecha;
+    private ImageButton flecha2;
 
     private boolean state_bluetooth = false;
     private boolean state_phone = false;
@@ -67,8 +68,8 @@ public class AlarmActivity extends AppCompatActivity {
         warning_hr = (TextView) findViewById(R.id.info_hr);
         warning_tiempo = (TextView) findViewById(R.id.info_segundos);
 
-        flecha = (ImageView) findViewById(R.id.flecha);
-        flecha2 = (ImageView) findViewById(R.id.flecha2);
+        flecha = (ImageButton) findViewById(R.id.flecha);
+        flecha2 = (ImageButton) findViewById(R.id.flecha2);
 
         title_bluetooth = (TextView) findViewById(R.id.field_bluetooth);
         title_phone = (TextView) findViewById(R.id.field_telefono);

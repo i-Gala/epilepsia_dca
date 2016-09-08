@@ -57,8 +57,10 @@
         android:layout_marginTop="26dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_rounded_233x72"
+        android:textColor="@color/whiteColor"
         android:text="@string/btn_send"
         android:id="@+id/button"
         android:layout_marginTop="39dp"
@@ -76,6 +78,7 @@
         android:layout_below="@+id/button"
         android:layout_alignRight="@+id/button"
         android:layout_alignEnd="@+id/button"
-        android:onClick="signUpOnClick" />
+        android:onClick="signUpOnClick"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

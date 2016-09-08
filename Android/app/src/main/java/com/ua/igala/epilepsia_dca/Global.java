@@ -149,12 +149,12 @@ public class Global {
 
     public void deleteSharedPreferences(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("ADcaEpilepsiaConfig", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = preferences.edit(); // Abrir editor
 
         editor.remove("ID_USER");
         editor.remove("CONEXION");
         editor.clear();
-        editor.commit();
+        editor.commit();    // Cerrar editor
 
 
     }
