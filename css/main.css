@@ -381,3 +381,12 @@ footer {
     color: #34495E;
     font-size: 14px;
 }
+.gala {
+    color: #333;
+    padding-bottom: 0;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+.iam {
+    margin-top: 0px !important;
+}
