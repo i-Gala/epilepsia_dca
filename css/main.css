@@ -1,4 +1,4 @@
-/* BLUE: #24C0D9;
+/* BLUE: #c66665;
 BLACK: #5E5865;
 Gray: #666;
 Dark Gray: #727272;
@@ -40,7 +40,7 @@ p {
 a {
     font-size: 15px;
     font-family: 'Open Sans', sans-serif;
-    color: #24C0D9;
+    color: #c66665;
     font-weight: 400;
     letter-spacing: .3px;
 }
@@ -57,7 +57,7 @@ a:hover {
     margin-bottom: 50px;
     padding-bottom: 20px;
     display: inline-block;
-    border-bottom: 1px solid #24C0D9;
+    border-bottom: 1px solid #c66665;
 }
 .button {
     border: none;
@@ -79,7 +79,8 @@ a:hover {
     border-color: #454545;
 }
 .overlay {
-    background: rgba(43, 191, 217, 0.90);
+    /*background: rgba(43, 191, 217, 0.80);*/
+    background: rgba(244, 125, 125, 0.80);
 }
 /* NAVIGATION
 ================================================ */
@@ -100,7 +101,7 @@ a:hover {
     margin-right: 8px;
 }
 .navbar-default .navbar-nav>li>a:hover {
-    color: #24C0D9;
+    color: #c66665;
 }
 /* HEADER
 ================================================ */
@@ -118,11 +119,17 @@ a:hover {
     color: #fff;
     padding-top: 100px;
 }
-.home-content h1 {
+.angel-content {
+    color: #fff;
+    padding-top: 40px;
+}
+.home-content h1,
+.angel-content h1 {
     text-transform: capitalize;
     font-weight: 200;
 }
-.home-content p {
+.home-content p,
+.angel-content p {
     font-size: 20px;
     font-weight: 200;
     color: #fff;
@@ -130,11 +137,14 @@ a:hover {
     line-height: 1.7em;
     margin: 30px 0;
 }
-.home-content .home {
+.home-content .home,
+,
+.angel-content .home {
     border: 1px solid #fff;
     color: #fff;
 }
-.home-content .home:hover {
+.home-content .home:hover,
+.angel-content .home:hover {
     background: #fff;
     color: #222;
 }
@@ -154,7 +164,7 @@ a:hover {
     margin: 30px 25px;
 }
 .service-title {
-    color: #24C0D9;
+    color: #c66665;
 }
 .service-content {
     margin-left: 65px;
@@ -198,29 +208,29 @@ a:hover {
 /* NEWSLETTER SIGNUP
  ================================================ */
 
-#newsletter {
-    background: #24C0D9;
+#angelsensor {
+    background: #c66665;
     background-size: cover;
     background-position: 0% 80%;
     padding-top: 40px;
     padding-bottom: 30px;
 }
-#newsletter .form-control {
+#angelsensor .form-control {
     border: none;
     height: 50px;
     margin: 20px 0;
     font-size: 18px;
     padding-left: 20px;
 }
-#newsletter h2 {
+#angelsensor h2 {
     margin-top: 50px;
     color: #fff;
 }
-#newsletter p {
+#angelsensor p {
     color: #fff;
     margin: 20px 0;
 }
-#newsletter input {
+#angelsensor input {
     display: inline-block;
 }
 .newsletter {
@@ -267,7 +277,7 @@ a:hover {
 }
 .social-networks a {
     display: inline-block;
-    border: 1px solid #24C0D9;
+    border: 1px solid #c66665;
     border-radius: 50%;
     background: #FFFFFF;
     margin: 3px;
@@ -276,12 +286,12 @@ a:hover {
     height: 50px;
 }
 .social-networks a:hover {
-    background: #24C0D9;
-    border: 1px solid #24C0D9;
+    background: #c66665;
+    border: 1px solid #c66665;
     color: #fff;
 }
 .testimonial {
-    background: #24C0D9;
+    background: #c66665;
     color: #fff;
     margin-top: 20px;
 }
@@ -303,7 +313,7 @@ a:hover {
     margin: 20px;
 }
 .get-trial {
-    background: #24C0D9;
+    background: #c66665;
     border: none;
     color: #fff;
 }
@@ -320,11 +330,11 @@ a:hover {
     padding: 20px 15px;
 }
 .form-control {
-    height: 45px;
+    height: 55px;
     font-size: 16px;
 }
 .send-button {
-    background: #24C0D9;
+    background: #c66665;
     color: #fff;
 }
 .contact-form {
@@ -335,7 +345,7 @@ a:hover {
     margin-top: 30px;
 }
 .contact-info span {
-    color: #24C0D9;
+    color: #c66665;
     margin-right: 10px;
 }
 .contact-info, .business-hours {
