@@ -379,8 +379,12 @@ footer {
 }
 .footer-content p {
     color: #34495E;
-    font-size: 14px;
+    font-size: 10px;
 }
+.footer-content a {
+    font-size:10px;
+}
+
 .gala {
     color: #333;
     padding-bottom: 0;
